@@ -12,13 +12,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
         body {
             font-family: 'Noto Sans TC', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* 8款風格背景與顏色定義 */
-        body.theme-excel { background-color: #f3f4f6; color: #1f2937; }
-        body.theme-minimal { background-color: #ffffff; color: #111827; }
-        body.theme-zen { 
+        /* 8款風格背景定義 */
+        .theme-excel { background-color: #f3f4f6; color: #1f2937; }
+        .theme-minimal { background-color: #ffffff; color: #111827; }
+        .theme-zen { 
             background-color: #fcfbf9; 
             color: #2c3e50;
             background-image: 
@@ -27,14 +26,14 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
-        body.theme-wood { background-color: #f7f3eb; color: #4a3525; }
-        body.theme-snow { background-color: #f0f7ff; color: #1e3a8a; }
-        body.theme-taro { background-color: #fdf4f8; color: #701a75; }
-        body.theme-cute { background-color: #fffbeb; color: #78350f; }
-        body.theme-gradient { background: linear-gradient(135deg, #fdf2f8 0%, #e0e7ff 100%); color: #374151; min-height: 100vh; }
+        .theme-wood { background-color: #f7f3eb; color: #4a3525; }
+        .theme-snow { background-color: #f0f7ff; color: #1e3a8a; }
+        .theme-taro { background-color: #fdf4f8; color: #701a75; }
+        .theme-cute { background-color: #fffbeb; color: #78350f; }
+        .theme-gradient { background: linear-gradient(135deg, #fdf2f8 0%, #e0e7ff 100%); color: #374151; min-height: 100vh; }
     </style>
 </head>
-<body class="theme-zen">
+<body class="theme-zen transition-colors duration-300">
 
     <!-- 頂端風格切換列 -->
     <div class="w-full bg-slate-800/80 backdrop-blur text-white px-4 py-2 flex justify-end items-center gap-4 text-sm">
@@ -60,4 +59,32 @@
         <!-- 官方固定 LOGO 區塊 (已移除上傳按鈕) -->
         <div class="flex justify-center items-center my-6">
             <div class="flex items-center gap-3 bg-white/80 backdrop-blur px-6 py-3 rounded-2xl shadow-sm border border-slate-200/60">
-                <img src="17order-logo.png" alt="17order 官方 LOGO" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src='
+                <img src="17order-logo.png" alt="17order 官方 LOGO" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://api.iconify.design/lucide:utensils.svg?color=%23059669';">
+                <span class="text-2xl font-bold tracking-wider text-slate-800">17order 團體點餐系統</span>
+            </div>
+        </div>
+
+        <!-- 導覽列 -->
+        <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-3 mb-6">
+            <button class="flex items-center gap-1.5 px-4 py-2 bg-emerald-600 text-white rounded-lg shadow-sm text-sm font-medium">
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i> 發起訂餐
+            </button>
+            <button class="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-lg shadow-sm text-sm font-medium border border-slate-200">
+                <i data-lucide="book-open" class="w-4 h-4"></i> 菜單管理
+            </button>
+            <button class="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-lg shadow-sm text-sm font-medium border border-slate-200">
+                <i data-lucide="users" class="w-4 h-4"></i> 名單分組
+            </button>
+            <button class="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-lg shadow-sm text-sm font-medium border border-slate-200">
+                <i data-lucide="history" class="w-4 h-4"></i> 歷史紀錄
+            </button>
+        </div>
+
+        <!-- 訂餐主面板 -->
+        <div class="bg-white/90 backdrop-blur rounded-2xl shadow-sm border border-slate-200/80 p-6 mb-6">
+            <h2 class="text-lg font-bold text-slate-800 mb-4">今天要訂什麼？</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label class="block text-xs font-medium text-slate-500 mb-1">1. 選擇店家菜單</label>
+                    <select class="w-full bg-slate-50 border border-slate-300 rounded-lg
