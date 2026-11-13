@@ -387,7 +387,7 @@
       border-bottom: 2px solid #3a2e25 !important;
     }
 
-    /* 漸層粉風格 (PANTONE 13-1520 石英粉 #F7CAC9 漸層至 PANTONE 15-3919 寧靜粉藍 #92A8D1 + 半透明白區塊) */
+    /* 漸層粉風格 */
     .theme-gradient {
       --bg-main: #F7CAC9;
       --bg-card: rgba(255, 255, 255, 0.72);
@@ -505,14 +505,10 @@
     </div>
   </header>
 
-  <!-- HERO BRAND LOGO SHOWCASE (TRANSPARENT & COMPACT) -->
+  <!-- HERO BRAND LOGO (FIXED TO 17order-logo.png) -->
   <div class="max-w-7xl mx-auto px-4 pt-3 pb-1 flex justify-center">
-    <input type="file" id="customLogoInput" accept="image/*" class="hidden" onchange="handleCustomLogoUpload(event)" />
-    <div onclick="document.getElementById('customLogoInput').click()" title="點擊更換 LOGO" class="cursor-pointer group relative inline-flex flex-col items-center justify-center transition-transform duration-300 hover:scale-105">
-      <img id="userLogoImg" src="https://placehold.co/360x140/transparent/3a2e25?text=%E9%BB%9E%E6%AD%A4%E4%B8%8A%E5%82%B3+17%E8%A8%82+LOGO" alt="17訂 Group Order" class="h-24 sm:h-32 w-auto max-w-[280px] sm:max-w-[360px] object-contain select-none drop-shadow-sm" />
-      <span class="mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black/70 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">
-        點擊更換 LOGO
-      </span>
+    <div class="inline-flex flex-col items-center justify-center select-none">
+      <img src="17order-logo.png" alt="17order 官方 LOGO" class="h-24 sm:h-32 w-auto max-w-[280px] sm:max-w-[360px] object-contain drop-shadow-sm" onerror="this.src='https://placehold.co/360x140/transparent/3a2e25?text=17order';">
     </div>
   </div>
 
@@ -994,126 +990,6 @@
       ],
       history: []
     };
-
-    /* CUSTOM LOGO UPLOAD WITH AUTO-TRIM WHITESPACE & TRANSPARENT BACKGROUND */
-    function trimImageWhitespace(imgElement, callback) {
-      try {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const w = imgElement.naturalWidth;
-        const h = imgElement.naturalHeight;
-        canvas.width = w;
-        canvas.height = h;
-        ctx.drawImage(imgElement, 0, 0);
-
-        const imgDataObj = ctx.getImageData(0, 0, w, h);
-        const imgData = imgDataObj.data;
-        let minX = w, minY = h, maxX = 0, maxY = 0;
-        let found = false;
-
-        for (let y = 0; y < h; y++) {
-          for (let x = 0; x < w; x++) {
-            const idx = (y * w + x) * 4;
-            const r = imgData[idx];
-            const g = imgData[idx + 1];
-            const b = imgData[idx + 2];
-            const a = imgData[idx + 3];
-            const isTransparent = a < 20;
-            const isNearWhite = r > 245 && g > 245 && b > 245;
-            if (!isTransparent && !isNearWhite) {
-              if (x < minX) minX = x;
-              if (x > maxX) maxX = x;
-              if (y < minY) minY = y;
-              if (y > maxY) maxY = y;
-              found = true;
-            }
-          }
-        }
-
-        const visited = new Uint8Array(w * h);
-        const queue = [];
-        const isBgPixel = (px, py) => {
-          const i = (py * w + px) * 4;
-          return imgData[i + 3] < 20 || (imgData[i] > 240 && imgData[i + 1] > 240 && imgData[i + 2] > 240);
-        };
-        for (let x = 0; x < w; x++) {
-          if (isBgPixel(x, 0)) { visited[x] = 1; queue.push([x, 0]); }
-          const bIdx = (h - 1) * w + x;
-          if (isBgPixel(x, h - 1)) { visited[bIdx] = 1; queue.push([x, h - 1]); }
-        }
-        for (let y = 0; y < h; y++) {
-          const lIdx = y * w;
-          if (isBgPixel(0, y)) { visited[lIdx] = 1; queue.push([0, y]); }
-          const rIdx = y * w + (w - 1);
-          if (isBgPixel(w - 1, y)) { visited[rIdx] = 1; queue.push([w - 1, y]); }
-        }
-        while (queue.length > 0) {
-          const [cx, cy] = queue.shift();
-          imgData[(cy * w + cx) * 4 + 3] = 0;
-          const dirs = [[1,0],[-1,0],[0,1],[0,-1]];
-          for (const [dx, dy] of dirs) {
-            const nx = cx + dx, ny = cy + dy;
-            if (nx >= 0 && nx < w && ny >= 0 && ny < h) {
-              const nIdx = ny * w + nx;
-              if (!visited[nIdx] && isBgPixel(nx, ny)) {
-                visited[nIdx] = 1;
-                queue.push([nx, ny]);
-              }
-            }
-          }
-        }
-        ctx.putImageData(imgDataObj, 0, 0);
-
-        if (!found || maxX <= minX || maxY <= minY) {
-          callback(canvas.toDataURL('image/png'));
-          return;
-        }
-
-        const padX = Math.round((maxX - minX) * 0.02);
-        const padY = Math.round((maxY - minY) * 0.02);
-        const cropX = Math.max(0, minX - padX);
-        const cropY = Math.max(0, minY - padY);
-        const cropW = Math.min(w - cropX, (maxX - minX) + padX * 2);
-        const cropH = Math.min(h - cropY, (maxY - minY) + padY * 2);
-
-        const trimmedCanvas = document.createElement('canvas');
-        trimmedCanvas.width = cropW;
-        trimmedCanvas.height = cropH;
-        const tCtx = trimmedCanvas.getContext('2d');
-        tCtx.drawImage(canvas, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
-
-        callback(trimmedCanvas.toDataURL('image/png'));
-      } catch (e) {
-        callback(null);
-      }
-    }
-
-    function handleCustomLogoUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const rawDataUrl = e.target.result;
-        const tempImg = new Image();
-        tempImg.onload = function() {
-          trimImageWhitespace(tempImg, function(trimmedUrl) {
-            const finalUrl = trimmedUrl || rawDataUrl;
-            const logoEl = document.getElementById('userLogoImg');
-            if (logoEl) logoEl.src = finalUrl;
-            try {
-              appData.customLogo = finalUrl;
-              saveData();
-            } catch (err) {
-              // Ignore storage quota warning
-            }
-            showToast('已自動裁切多餘白邊並放大顯示您的 17訂 LOGO！');
-          });
-        };
-        tempImg.src = rawDataUrl;
-      };
-      reader.readAsDataURL(file);
-      event.target.value = '';
-    }
 
     function renderUserAuth() {
       const area = document.getElementById('userAuthArea');
@@ -1966,10 +1842,6 @@
     window.addEventListener('DOMContentLoaded', () => {
       if (appData.theme) {
         document.body.className = `theme-${appData.theme} min-h-screen transition-colors duration-300 font-sans`;
-      }
-      if (appData.customLogo) {
-        const logoEl = document.getElementById('userLogoImg');
-        if (logoEl) logoEl.src = appData.customLogo;
       }
       renderUserAuth();
       populateOrderDropdowns();
