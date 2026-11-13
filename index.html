@@ -15,7 +15,7 @@
             transition: all 0.3s ease;
         }
 
-        /* 8款精緻風格專屬樣式設定 */
+        /* 8款風格背景定義 */
         body.theme-zen { 
             background-color: #fcfbf9; 
             color: #2c3e50;
@@ -25,35 +25,13 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
-        body.theme-excel { 
-            background-color: #f3f4f6; 
-            color: #1f2937; 
-        }
-        body.theme-minimal { 
-            background-color: #ffffff; 
-            color: #111827; 
-        }
-        body.theme-wood { 
-            background-color: #f7f3eb; 
-            color: #4a3525; 
-        }
-        body.theme-snow { 
-            background-color: #f0f7ff; 
-            color: #1e3a8a; 
-        }
-        body.theme-taro { 
-            background-color: #fdf4f8; 
-            color: #701a75; 
-        }
-        body.theme-cute { 
-            background-color: #fffbeb; 
-            color: #78350f; 
-        }
-        body.theme-gradient { 
-            background: linear-gradient(135deg, #fdf2f8 0%, #e0e7ff 100%); 
-            color: #374151; 
-            min-height: 100vh; 
-        }
+        body.theme-excel { background-color: #f3f4f6; color: #1f2937; }
+        body.theme-minimal { background-color: #ffffff; color: #111827; }
+        body.theme-wood { background-color: #f7f3eb; color: #4a3525; }
+        body.theme-snow { background-color: #f0f7ff; color: #1e3a8a; }
+        body.theme-taro { background-color: #fdf4f8; color: #701a75; }
+        body.theme-cute { background-color: #fffbeb; color: #78350f; }
+        body.theme-gradient { background: linear-gradient(135deg, #fdf2f8 0%, #e0e7ff 100%); color: #374151; min-height: 100vh; }
     </style>
 </head>
 <body class="theme-zen">
@@ -66,4 +44,23 @@
                 <option value="zen">🌸 日極簡 (和紙藍染)</option>
                 <option value="excel">📊 EXCEL (經典灰)</option>
                 <option value="minimal">✨ 極簡白 (Modern)</option>
-                <option value="wood">🪵
+                <option value="wood">🪵 木文青 (Warm Wood)</option>
+                <option value="snow">❄️ 雪花冰 (Cool Blue)</option>
+                <option value="taro">🧋 珍珠奶 (Taro Milk)</option>
+                <option value="cute">🐥 可愛風 (Sunny Yellow)</option>
+                <option value="gradient">🌈 漸層粉 (Soft Gradient)</option>
+            </select>
+        </div>
+        <button onclick="alert('Google 登入功能準備中')" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition shadow-sm">Google 登入</button>
+    </div>
+
+    <!-- 主容器 -->
+    <div class="max-w-6xl mx-auto px-4 py-6">
+        
+        <!-- 官方固定 LOGO 區塊 (無上傳按鈕) -->
+        <div class="flex justify-center items-center my-6">
+            <div class="flex items-center gap-3 bg-white/90 backdrop-blur px-6 py-3 rounded-2xl shadow-sm border border-slate-200/80">
+                <img src="17order-logo.png" alt="17order 官方 LOGO" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://api.iconify.design/lucide:utensils.svg?color=%23059669';">
+                <span class="text-2xl font-bold tracking-wider text-slate-800">17order 團體點餐系統</span>
+            </div>
+        </div>
