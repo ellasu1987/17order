@@ -7,6 +7,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- 接入 Tesseract.js 真實前端 OCR 辨識引擎 -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
     
@@ -613,7 +615,7 @@
     </div>
   </div>
 
-  <!-- MODAL: STORE (修正圖片上傳 OCR 智慧辨識) -->
+  <!-- MODAL: STORE (真實 OCR 引擎 + 長條圖片切片辨識) -->
   <div id="storeModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[90vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-3">
@@ -622,17 +624,34 @@
       </div>
       <div class="space-y-3 text-sm overflow-y-auto flex-1 pr-1">
         <input type="hidden" id="editStoreIdInput" value="">
-        <div><label class="block font-bold mb-1">店家名稱</label><input type="text" id="storeNameInput" class="w-full px-3 py-2 border rounded-lg"></div>
+        <div><label class="block font-bold mb-1">店家名稱</label><input type="text" id="storeNameInput" class="w-full px-3 py-2 border rounded-lg" placeholder="例: 五十嵐"></div>
         <div><label class="block font-bold mb-1">菜單分類</label><select id="storeCategoryInput" class="w-full px-3 py-2 border rounded-lg bg-white"></select></div>
         
-        <!-- 📸 AI 拍照上傳菜單圖片自動辨識 OCR -->
-        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl space-y-2">
-          <label class="block font-bold text-amber-900 text-xs flex items-center space-x-1">
-            <i data-lucide="camera" class="w-4 h-4 text-amber-600"></i>
-            <span>AI 拍照上傳菜單圖片 / 截圖自動辨識品項與金額</span>
+        <!-- 📸 真實 OCR 圖片文字與金額辨識區塊（支援長條菜單圖片自動切片掃描） -->
+        <div class="p-3.5 bg-amber-50 border border-amber-200 rounded-xl space-y-2">
+          <label class="block font-bold text-amber-900 text-xs flex items-center space-x-1.5">
+            <i data-lucide="scan-text" class="w-4 h-4 text-amber-600"></i>
+            <span>上傳菜單照片 / 長條截圖（真實 OCR 文字與金額辨識）</span>
           </label>
-          <input type="file" id="menuOcrFileInput" accept="image/*" onchange="handleMenuOcrUpload(event)" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-amber-600 file:text-white hover:file:bg-amber-700 cursor-pointer">
-          <div id="ocrLoadingText" class="hidden text-xs text-amber-700 font-bold animate-pulse">✨ AI 正在智慧解析圖片中的菜單品項與金額，請稍候...</div>
+          <p class="text-[11px] text-amber-800/80">支援一般菜單照及 LINE/網頁長條菜單截圖，系統會自動分段強化對比並萃取品項與價格。</p>
+          <input type="file" id="menuOcrFileInput" accept="image/*" onchange="handleMenuOcrUpload(event)" class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-amber-600 file:text-white hover:file:bg-amber-700 cursor-pointer">
+          
+          <!-- 辨識進度條 -->
+          <div id="ocrProgressContainer" class="hidden space-y-1.5 pt-1">
+            <div class="flex justify-between text-xs font-bold text-amber-800">
+              <span id="ocrStatusText">正在初始化 OCR 辨識引擎...</span>
+              <span id="ocrPercentText">0%</span>
+            </div>
+            <div class="w-full bg-amber-200/70 rounded-full h-2 overflow-hidden">
+              <div id="ocrProgressBar" class="bg-amber-600 h-2 rounded-full transition-all duration-200" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- 原始辨識文字檢視（可折疊核對） -->
+          <details id="ocrRawTextDetails" class="hidden text-xs pt-1">
+            <summary class="cursor-pointer font-bold text-amber-800 hover:underline">檢視圖片原始辨識文字（供手動核對）</summary>
+            <textarea id="ocrRawTextArea" rows="4" class="mt-1.5 w-full p-2 border border-amber-300 rounded-lg bg-white text-[11px] font-mono text-gray-700" readonly></textarea>
+          </details>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
@@ -643,9 +662,9 @@
         <div class="pt-2">
           <div class="flex items-center justify-between mb-1">
             <span class="font-bold">品項清單 (<span id="storeItemCountBadge">0</span>)</span>
-            <button onclick="addStoreItemRow()" type="button" class="text-xs font-bold text-amber-700">新增一列</button>
+            <button onclick="addStoreItemRow()" type="button" class="text-xs font-bold text-amber-700 hover:underline">+ 新增一列</button>
           </div>
-          <div id="storeItemsContainer" class="space-y-2 max-h-48 overflow-y-auto p-1 border rounded-xl bg-gray-50"></div>
+          <div id="storeItemsContainer" class="space-y-2 max-h-52 overflow-y-auto p-1.5 border rounded-xl bg-gray-50"></div>
         </div>
       </div>
       <div class="flex justify-end space-x-2 pt-3 border-t">
@@ -655,7 +674,7 @@
     </div>
   </div>
 
-  <!-- MODAL: GROUP (修正新增名單群組與成員) -->
+  <!-- MODAL: GROUP -->
   <div id="groupModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[90vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-3">
@@ -668,9 +687,9 @@
         <div>
           <div class="flex items-center justify-between mb-1">
             <span class="font-bold">成員名單 (<span id="groupMemberCountBadge">0</span>)</span>
-            <button onclick="addGroupMemberRow()" type="button" class="text-xs font-bold text-amber-700">新增成員</button>
+            <button onclick="addGroupMemberRow()" type="button" class="text-xs font-bold text-amber-700 hover:underline">+ 新增成員</button>
           </div>
-          <div id="groupMembersContainer" class="space-y-2 max-h-60 overflow-y-auto p-1 border rounded-xl bg-gray-50"></div>
+          <div id="groupMembersContainer" class="space-y-2 max-h-60 overflow-y-auto p-1.5 border rounded-xl bg-gray-50"></div>
         </div>
       </div>
       <div class="flex justify-end space-x-2 pt-3 border-t">
@@ -977,14 +996,13 @@
     }
 
     function calculateOrderTotals() {
-      let grandTotal = 0, totalItems = 0, skippedCount = 0;
+      let grandTotal = 0, totalItems = 0;
       document.querySelectorAll('#orderTableBody tr').forEach(tr => {
         const isSkipped = tr.querySelector('.skip-checkbox').checked;
         const rowTotalEl = tr.querySelector('.row-total');
         if (isSkipped) {
           tr.classList.add('opacity-40', 'bg-gray-100');
           rowTotalEl.innerText = '$0';
-          skippedCount++;
         } else {
           tr.classList.remove('opacity-40', 'bg-gray-100');
           const itemOpt = tr.querySelector('.item-select').options;
@@ -1016,27 +1034,243 @@
       showToast('已成功儲存訂單至個人歷史紀錄！');
     }
 
-    /* 📸 AI 拍照上傳菜單圖片自動辨識 OCR 邏輯（支援真正抓取上傳檔案名稱與智慧帶入） */
-    function handleMenuOcrUpload(event) {
+    /* =====================================================================
+       📸 真實 Tesseract.js OCR 引擎 + 長條菜單圖片自動切片與對比強化模組
+       ===================================================================== */
+    function loadImageElement(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // 將圖片依據長寬比切片（針對長條菜單圖片分塊掃描，並進行放大與高對比二值化處理）
+    function sliceAndEnhanceImage(img) {
+      const slices = [];
+      const w = img.width;
+      const h = img.height;
+
+      // 若寬度小於 1400px，適度放大以提升小字體辨識準確度
+      const scale = w < 1400 ? Math.min(2.0, 1400 / w) : 1.0;
+      const scaledW = Math.round(w * scale);
+      const scaledH = Math.round(h * scale);
+
+      // 每片最大高度設為 1600px，並保留 180px 重疊區塊避免切斷文字行
+      const maxSliceH = 1600;
+      const overlap = 180;
+
+      if (scaledH <= maxSliceH * 1.2) {
+        slices.push(renderEnhancedCanvas(img, 0, 0, w, h, scaledW, scaledH));
+      } else {
+        let currentY = 0;
+        const stepH = Math.round((maxSliceH - overlap) / scale);
+        const srcSliceH = Math.round(maxSliceH / scale);
+
+        while (currentY < h) {
+          const actualSrcH = Math.min(srcSliceH, h - currentY);
+          const actualDestH = Math.round(actualSrcH * scale);
+          slices.push(renderEnhancedCanvas(img, 0, currentY, w, actualSrcH, scaledW, actualDestH));
+          if (currentY + actualSrcH >= h) break;
+          currentY += stepH;
+        }
+      }
+      return slices;
+    }
+
+    // 繪製並強化文字對比度（灰階 + 對比度拉伸，讓淺色背景或彩色菜單字體更清晰）
+    function renderEnhancedCanvas(img, sx, sy, sw, sh, dw, dh) {
+      const canvas = document.createElement('canvas');
+      canvas.width = dw;
+      canvas.height = dh;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, dw, dh);
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, dw, dh);
+
+      try {
+        const imgData = ctx.getImageData(0, 0, dw, dh);
+        const data = imgData.data;
+        const contrast = 1.28; // 增強對比
+        const intercept = 128 * (1 - contrast);
+
+        for (let i = 0; i < data.length; i += 4) {
+          // 轉灰階 (Luminance)
+          let gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+          // 對比拉伸
+          gray = gray * contrast + intercept;
+          gray = gray < 0 ? 0 : (gray > 255 ? 255 : gray);
+          data[i] = data[i + 1] = data[i + 2] = gray;
+        }
+        ctx.putImageData(imgData, 0, 0);
+      } catch (e) {
+        // 若瀏覽器限制像素操作則保留原圖繪製
+      }
+      return canvas;
+    }
+
+    // 解析辨識出來的多行文字，萃取出「品項名稱」與「金額」
+    function parseMenuTextLines(rawText) {
+      const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+      const parsedItems = [];
+      const seenKeys = new Set();
+
+      lines.forEach(line => {
+        // 排除電話號碼、統編、地址雜訊
+        if (/0\d{1,2}[-\s]?\d{6,8}|09\d{2}[-\s]?\d{6}|統一編號|地址|外送專線|滿\d+元/.test(line)) {
+          return;
+        }
+
+        // 清理常見 OCR 誤判符號
+        let cleaned = line
+          .replace(/[|｜丨【】\[\]「」『』•●◆★☆※]/g, ' ')
+          .replace(/NT\$|NTD|\$|元/gi, ' ')
+          .replace(/\.{2,}|…+|—+|-+/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+
+        // 情況 1：同一行包含「品項名稱 + 兩個價格」（常見於手搖飲 M / L 價格，例如：珍珠奶茶 45 55）
+        const dualPriceMatch = cleaned.match(/^([^\d]{2,22}?)\s+(\d{2,3})\s+(\d{2,3})$/);
+        if (dualPriceMatch) {
+          const baseName = dualPriceMatch[1].trim();
+          const p1 = parseInt(dualPriceMatch[2], 10);
+          const p2 = parseInt(dualPriceMatch[3], 10);
+          if (p1 >= 5 && p1 <= 1500 && p2 >= 5 && p2 <= 1500 && p2 >= p1) {
+            const k1 = `${baseName} (M)_${p1}`;
+            const k2 = `${baseName} (L)_${p2}`;
+            if (!seenKeys.has(k1)) { seenKeys.add(k1); parsedItems.push({ name: `${baseName} (M)`, price: p1 }); }
+            if (!seenKeys.has(k2)) { seenKeys.add(k2); parsedItems.push({ name: `${baseName} (L)`, price: p2 }); }
+            return;
+          }
+        }
+
+        // 情況 2：同一行包含「品項名稱 + 單一價格」（例如：招牌鍋貼 7 或 雞腿便當 110）
+        const singlePriceMatch = cleaned.match(/^(.{2,28}?)\s+(\d{1,4})(?:\s*\/\s*[份顆粒碗杯個])?$/);
+        if (singlePriceMatch) {
+          let itemName = singlePriceMatch[1].replace(/[^\u4e00-\u9fa5a-zA-Z0-9()（）/\s]/g, '').trim();
+          const price = parseInt(singlePriceMatch[2], 10);
+          // 過濾純數字品名或過高/無效金額
+          if (itemName.length >= 2 && !/^\d+$/.test(itemName) && price >= 5 && price <= 2500) {
+            const key = `${itemName}_${price}`;
+            if (!seenKeys.has(key)) {
+              seenKeys.add(key);
+              parsedItems.push({ name: itemName, price });
+            }
+          }
+        }
+      });
+
+      return parsedItems;
+    }
+
+    async function handleMenuOcrUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
 
-      const loadingEl = document.getElementById('ocrLoadingText');
-      loadingEl.classList.remove('hidden');
+      if (typeof Tesseract === 'undefined') {
+        showToast('OCR 辨識模組尚在載入中，請稍候 2 秒再試一次。');
+        return;
+      }
 
-      setTimeout(() => {
-        loadingEl.classList.add('hidden');
-        // 自動將檔名帶入店家名稱參考（如果名稱還空白的話）
+      const progressContainer = document.getElementById('ocrProgressContainer');
+      const statusText = document.getElementById('ocrStatusText');
+      const percentText = document.getElementById('ocrPercentText');
+      const progressBar = document.getElementById('ocrProgressBar');
+      const rawDetails = document.getElementById('ocrRawTextDetails');
+      const rawTextArea = document.getElementById('ocrRawTextArea');
+
+      progressContainer.classList.remove('hidden');
+      rawDetails.classList.add('hidden');
+      statusText.innerText = '正在分析圖片尺寸與切片處理...';
+      percentText.innerText = '5%';
+      progressBar.style.width = '5%';
+
+      let worker = null;
+      try {
+        const img = await loadImageElement(file);
+        const slices = sliceAndEnhanceImage(img);
+        const totalSlices = slices.length;
+
+        statusText.innerText = `載入繁體中文辨識模型 (共 ${totalSlices} 個區塊)...`;
+        worker = await Tesseract.createWorker('chi_tra+eng', 1, {
+          logger: m => {
+            if (m.status === 'recognizing text') {
+              // 動態計算多張長條切片的總進度
+              const currentSliceIdx = worker._currentSlice || 0;
+              const basePct = 15 + (currentSliceIdx / totalSlices) * 80;
+              const slicePct = (m.progress || 0) * (80 / totalSlices);
+              const totalPct = Math.min(95, Math.round(basePct + slicePct));
+              percentText.innerText = `${totalPct}%`;
+              progressBar.style.width = `${totalPct}%`;
+            }
+          }
+        });
+
+        let fullRecognizedText = '';
+        for (let i = 0; i < totalSlices; i++) {
+          worker._currentSlice = i;
+          statusText.innerText = totalSlices > 1
+            ? `正在掃描長條菜單第 ${i + 1} / ${totalSlices} 段...`
+            : `正在辨識菜單文字與金額...`;
+          const { data: { text } } = await worker.recognize(slices[i]);
+          fullRecognizedText += text + '\n';
+        }
+
+        await worker.terminate();
+        worker = null;
+
+        percentText.innerText = '100%';
+        progressBar.style.width = '100%';
+        statusText.innerText = '辨識完成！正在萃取品項與價格...';
+
+        // 顯示原始文字供使用者核對
+        rawTextArea.value = fullRecognizedText.trim();
+        rawDetails.classList.remove('hidden');
+
+        // 萃取品項與金額
+        const extractedItems = parseMenuTextLines(fullRecognizedText);
+
+        // 若店家名稱尚為空白，嘗試抓取辨識文字的第一行作為店名參考
         const nameInput = document.getElementById('storeNameInput');
         if (!nameInput.value.trim()) {
-          const cleanName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-          nameInput.value = cleanName.replace(/[-_]/g, ' ');
+          const firstLine = fullRecognizedText.split(/\r?\n/).map(l => l.trim()).find(l => l.length >= 2 && l.length <= 15 && !/\d{3,}/.test(l));
+          if (firstLine) {
+            nameInput.value = firstLine.replace(/[^\u4e00-\u9fa5a-zA-Z0-9()（）]/g, '');
+          }
         }
-        // 自動載入預設帶入的品項
-        addStoreItemRow('AI辨識品項 A', 100);
-        addStoreItemRow('AI辨識品項 B', 150);
-        showToast(`✨ 成功辨識圖片「${file.name}」！已自動帶入品項與金額`);
-      }, 1000);
+
+        if (extractedItems.length > 0) {
+          // 清除原本空白的預設輸入列
+          document.querySelectorAll('#storeItemsContainer .item-row').forEach(row => {
+            const n = row.querySelector('.item-name').value.trim();
+            const p = row.querySelector('.item-price').value.trim();
+            if (!n && !p) row.remove();
+          });
+
+          extractedItems.forEach(item => {
+            addStoreItemRow(item.name, item.price);
+          });
+          showToast(`✅ 成功辨識出 ${extractedItems.length} 個菜單品項！請確認內容無誤後儲存。`);
+        } else {
+          showToast('⚠️ 已讀取圖片文字，但未自動配對出標準「品項+金額」格式，可展開原始文字複製或手動新增。');
+        }
+
+        setTimeout(() => {
+          progressContainer.classList.add('hidden');
+        }, 1200);
+
+      } catch (err) {
+        console.error('OCR Error:', err);
+        if (worker) { try { await worker.terminate(); } catch(e) {} }
+        progressContainer.classList.add('hidden');
+        showToast('❌ 圖片辨識過程發生錯誤，請確認圖片格式或網路連線後重試。');
+      }
     }
 
     function openStoreModal(storeId = null) {
@@ -1044,7 +1278,8 @@
       document.getElementById('storeCategoryInput').innerHTML = appData.categories.map(c => `<option value="${c}">${c}</option>`).join('');
       document.getElementById('storeItemsContainer').innerHTML = '';
       document.getElementById('menuOcrFileInput').value = '';
-      document.getElementById('ocrLoadingText').classList.add('hidden');
+      document.getElementById('ocrProgressContainer').classList.add('hidden');
+      document.getElementById('ocrRawTextDetails').classList.add('hidden');
 
       if (storeId) {
         const store = appData.stores.find(s => s.id === storeId);
@@ -1068,6 +1303,7 @@
       }
       updateStoreItemCountBadge();
       document.getElementById('storeModal').classList.remove('hidden');
+      if (window.lucide) lucide.createIcons();
     }
 
     function closeStoreModal() { document.getElementById('storeModal').classList.add('hidden'); }
@@ -1163,7 +1399,7 @@
       if (window.lucide) lucide.createIcons();
     }
 
-    /* 👥 名單群組管理邏輯（修復新增成員與群組儲存） */
+    /* 👥 名單群組管理邏輯 */
     function openGroupModal(groupId = null) {
       if (!appData.user) { showToast('【安全防護】未登入無法修改！'); return; }
       document.getElementById('groupMembersContainer').innerHTML = '';
@@ -1278,7 +1514,7 @@
       document.getElementById('toastMessage').innerText = msg;
       toast.classList.remove('hidden');
       setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
-      setTimeout(() => { toast.classList.add('translate-y-2', 'opacity-0'); setTimeout(() => toast.classList.add('hidden'), 300); }, 2500);
+      setTimeout(() => { toast.classList.add('translate-y-2', 'opacity-0'); setTimeout(() => toast.classList.add('hidden'), 300); }, 3000);
     }
 
     window.addEventListener('DOMContentLoaded', () => { renderUserAuth(); if (window.lucide) lucide.createIcons(); });
