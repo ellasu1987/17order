@@ -457,7 +457,7 @@
   <header class="sticky top-0 z-40 border-b shadow-sm backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 h-12 flex items-center justify-between">
       <div id="loginPromptBar" class="text-xs font-bold text-amber-100 flex items-center space-x-1">
-        <span>🔒 訪客模式：菜單與群組為一次性預設值（已內建五十嵐、八方雲集、丹麥之屋），登入 Google 後可永久自訂！</span>
+        <span>🔒 訪客模式：已內建五十嵐（含加料選項）、八方雲集、丹麥之屋，登入 Google 後可永久自訂！</span>
       </div>
       <div class="flex items-center space-x-2 shrink-0 ml-auto">
         <button onclick="toggleThemeModal()" class="flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-medium border border-gray-300 bg-white/80 hover:bg-white transition shadow-sm">
@@ -522,7 +522,7 @@
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-bold text-gray-600 uppercase mb-1">1. 選擇店家菜單 (預設：五十嵐 / 八方雲集 / 丹麥之屋)</label>
+            <label class="block text-xs font-bold text-gray-600 uppercase mb-1">1. 選擇店家菜單</label>
             <select id="orderStoreSelect" onchange="onOrderStoreChange()" class="w-full px-3 py-2 rounded-lg border border-gray-300 bg-white font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
             </select>
           </div>
@@ -598,7 +598,7 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-xl font-extrabold text-gray-800">菜單管理庫</h2>
-          <p class="text-xs text-gray-500 mt-1">已完整載入五十嵐、八方雲集、丹麥之屋全部品項；登入 Google 後可新增或編輯專屬菜單。</p>
+          <p class="text-xs text-gray-500 mt-1">已完整載入五十嵐、八方雲集、丹麥之屋；登入 Google 後可新增與儲存專屬店家菜單。</p>
         </div>
         <button id="addStoreBtn" onclick="openAddStoreModal()" class="btn-primary px-4 py-2 rounded-xl text-sm font-bold flex items-center space-x-2 shadow-sm">
           <i data-lucide="plus" class="w-4 h-4"></i>
@@ -695,7 +695,7 @@
       <div class="space-y-4 text-sm">
         <div>
           <label class="block font-bold text-gray-700 mb-1">店家名稱</label>
-          <input type="text" id="storeNameInput" placeholder="例如：健康餐盒專賣" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none">
+          <input type="text" id="storeNameInput" placeholder="例如：手搖飲專賣" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none">
         </div>
         <div>
           <label class="block font-bold text-gray-700 mb-1">菜單分類</label>
@@ -756,7 +756,7 @@
   </div>
 
   <script>
-    /* 一次性預設菜單：完整收錄五十嵐、八方雲集、丹麥之屋 */
+    /* 完整預設資料：五十嵐內建加料選項、八方雲集、丹麥之屋 */
     const guestData = {
       theme: 'excel',
       categories: ['手搖飲', '餐點', '下午茶'],
@@ -767,7 +767,6 @@
           category: '手搖飲',
           updatedDate: '2026/11/16',
           items: [
-            // 找好茶
             { name: '茉莉綠茶 / 阿薩姆紅茶 (M)', price: 30 },
             { name: '茉莉綠茶 / 阿薩姆紅茶 (L)', price: 35 },
             { name: '四季春青茶 (M)', price: 30 },
@@ -798,38 +797,24 @@
             { name: '多多綠 / 紅 (L)', price: 55 },
             { name: '多多檸檬綠 (M)', price: 50 },
             { name: '多多檸檬綠 (L)', price: 65 },
-            // 找奶茶
             { name: '奶茶 (M)', price: 40 },
             { name: '奶茶 (L)', price: 55 },
             { name: '奶綠 (M)', price: 40 },
             { name: '奶綠 (L)', price: 55 },
             { name: '烏龍奶 (M)', price: 40 },
             { name: '烏龍奶 (L)', price: 55 },
-            { name: '椰果奶茶 (M)', price: 40 },
-            { name: '椰果奶茶 (L)', price: 55 },
             { name: '珍珠奶茶 (M)', price: 40 },
             { name: '珍珠奶茶 (L)', price: 55 },
             { name: '波霸奶茶 (M)', price: 40 },
             { name: '波霸奶茶 (L)', price: 55 },
-            { name: '燕麥奶茶 / 奶青 (M)', price: 40 },
-            { name: '燕麥奶茶 / 奶青 (L)', price: 55 },
-            { name: '燕麥烏龍奶 (M)', price: 40 },
-            { name: '燕麥烏龍奶 (L)', price: 55 },
             { name: '布丁奶茶 (M)', price: 50 },
             { name: '布丁奶茶 (L)', price: 65 },
             { name: '冰淇淋奶茶 (M)', price: 50 },
             { name: '冰淇淋奶茶 (L)', price: 65 },
-            { name: '紅茶瑪奇朵 (M)', price: 40 },
-            { name: '紅茶瑪奇朵 (L)', price: 55 },
-            { name: '青茶瑪奇朵 (M)', price: 40 },
-            { name: '青茶瑪奇朵 (L)', price: 55 },
             { name: '阿華田 (M)', price: 45 },
             { name: '阿華田 (L)', price: 60 },
-            { name: '燕麥阿華田 (M)', price: 45 },
-            { name: '燕麥阿華田 (L)', price: 60 },
             { name: '可可芭蕾 (M)', price: 50 },
             { name: '可可芭蕾 (L)', price: 65 },
-            // 找拿鐵
             { name: '紅茶拿鐵 (M)', price: 50 },
             { name: '紅茶拿鐵 (L)', price: 65 },
             { name: '綠茶拿鐵 (M)', price: 50 },
@@ -840,46 +825,26 @@
             { name: '珍珠紅茶拿鐵 (L)', price: 65 },
             { name: '波霸紅茶拿鐵 (M)', price: 50 },
             { name: '波霸紅茶拿鐵 (L)', price: 65 },
-            { name: '燕麥紅茶拿鐵 (M)', price: 50 },
-            { name: '燕麥紅茶拿鐵 (L)', price: 65 },
             { name: '布丁紅茶拿鐵 (M)', price: 55 },
             { name: '布丁紅茶拿鐵 (L)', price: 75 },
             { name: '冰淇淋紅茶拿鐵 (M)', price: 55 },
             { name: '冰淇淋紅茶拿鐵 (L)', price: 75 },
             { name: '阿華田拿鐵 (M)', price: 55 },
             { name: '阿華田拿鐵 (L)', price: 75 },
-            { name: '燕麥阿華田拿鐵 (M)', price: 55 },
-            { name: '燕麥阿華田拿鐵 (L)', price: 75 },
             { name: '可可芭蕾拿鐵 (M)', price: 55 },
             { name: '可可芭蕾拿鐵 (L)', price: 75 },
-            // 找新鮮
             { name: '柚子茶 (M)', price: 40 },
             { name: '柚子茶 (L)', price: 55 },
-            { name: '8冰茶 (M)', price: 40 },
-            { name: '8冰茶 (L)', price: 55 },
             { name: '檸檬汁 (M)', price: 50 },
             { name: '檸檬汁 (L)', price: 65 },
             { name: '金桔檸檬 (M)', price: 50 },
             { name: '金桔檸檬 (L)', price: 65 },
-            { name: '檸檬梅汁 (M)', price: 50 },
-            { name: '檸檬梅汁 (L)', price: 65 },
-            { name: '檸檬多多 (M)', price: 55 },
-            { name: '檸檬多多 (L)', price: 75 },
-            // 季節限定
             { name: '蜂蜜紅 / 綠 (M)', price: 40 },
             { name: '蜂蜜紅 / 綠 (L)', price: 55 },
             { name: '蜂蜜奶茶 (M)', price: 50 },
             { name: '蜂蜜奶茶 (L)', price: 65 },
             { name: '鮮柚綠 / 葡萄柚汁 (M)', price: 50 },
-            { name: '鮮柚綠 / 葡萄柚汁 (L)', price: 65 },
-            { name: '葡萄柚蜜 (M)', price: 55 },
-            { name: '葡萄柚蜜 (L)', price: 75 },
-            { name: '葡萄柚多多 (M)', price: 55 },
-            { name: '葡萄柚多多 (L)', price: 75 },
-            { name: '檸檬蜜 (M)', price: 55 },
-            { name: '檸檬蜜 (L)', price: 75 },
-            { name: '金桔檸檬蜜 (M)', price: 55 },
-            { name: '金桔檸檬蜜 (L)', price: 75 }
+            { name: '鮮柚綠 / 葡萄柚汁 (L)', price: 65 }
           ]
         },
         {
@@ -888,83 +853,27 @@
           category: '餐點',
           updatedDate: '2026/11/16',
           items: [
-            // 鍋貼 (單粒)
             { name: '招牌鍋貼 (單粒)', price: 7 },
             { name: '韭菜鍋貼 (單粒)', price: 7 },
             { name: '韓式辣味鍋貼 (單粒)', price: 7 },
             { name: '咖哩鍋貼 (單粒)', price: 7 },
             { name: '玉米鍋貼 (單粒)', price: 7 },
             { name: '新蔬食鍋貼 (單粒)', price: 7.5 },
-            // 生鮮鍋貼 (20粒裝)
-            { name: '生鮮招牌鍋貼 (20粒裝)', price: 125 },
-            { name: '生鮮韭菜鍋貼 (20粒裝)', price: 125 },
-            { name: '生鮮韓式辣味鍋貼 (20粒裝)', price: 125 },
-            { name: '生鮮咖哩鍋貼 (20粒裝)', price: 125 },
-            { name: '生鮮玉米鍋貼 (20粒裝)', price: 125 },
-            { name: '生鮮新蔬食鍋貼 (20粒裝)', price: 135 },
-            // 水餃 (單粒)
             { name: '招牌水餃 (單粒)', price: 7 },
             { name: '韭菜水餃 (單粒)', price: 7 },
             { name: '韓式辣味水餃 (單粒)', price: 7 },
-            { name: '咖哩水餃 (單粒)', price: 7 },
-            { name: '玉米水餃 (單粒)', price: 7 },
-            { name: '新蔬食水餃 (單粒)', price: 7.5 },
             { name: '鮮蝦水餃 (單粒)', price: 10.5 },
-            // 湯餃 (8顆裝)
             { name: '酸辣湯餃 (8顆裝)', price: 90 },
-            { name: '玉米湯餃 (8顆裝)', price: 90 },
-            // 金牌牛肉系列
-            { name: '帶骨牛小排麵 (紅燒/清燉)', price: 350 },
             { name: '紅燒牛肉麵 / 冬粉', price: 168 },
             { name: '清燉牛肉麵 / 冬粉', price: 168 },
             { name: '麻辣牛肉麵 / 冬粉', price: 178 },
-            { name: '紅燒牛肉湯', price: 158 },
-            { name: '清燉牛肉湯', price: 158 },
-            { name: '麻辣牛肉湯', price: 168 },
-            { name: '紅燒牛湯餃 (8顆裝)', price: 120 },
-            { name: '麻辣牛湯餃 (8顆裝)', price: 125 },
-            { name: '紅燒牛湯珍珠餛飩 (8顆裝)', price: 125 },
-            { name: '麻辣牛湯珍珠餛飩 (8顆裝)', price: 130 },
-            { name: '紅燒牛湯菜肉大餛飩 (6顆裝)', price: 125 },
-            { name: '麻辣牛湯菜肉大餛飩 (6顆裝)', price: 130 },
-            // 乾麵 & 湯麵
             { name: '古早味乾麵', price: 45 },
             { name: '麻醬乾麵', price: 55 },
             { name: '招牌乾麵 (微辣)', price: 55 },
-            { name: '紹辣乾麵', price: 60 },
-            { name: '古早味湯麵', price: 45 },
-            { name: '酸辣湯麵', price: 70 },
-            { name: '珍珠餛飩麵', price: 70 },
-            { name: '菜肉大餛飩麵', price: 80 },
-            { name: '榨菜肉絲麵', price: 80 },
-            { name: '紹辣珍珠餛飩麵', price: 80 },
-            { name: '紹辣菜肉大餛飩麵', price: 90 },
-            { name: '梁師傅排骨麵', price: 105 },
-            // 抄手 & 湯品
-            { name: '珍珠抄手 紅油/和風 (小顆8顆)', price: 60 },
-            { name: '菜肉大抄手 紅油/和風 (大顆6顆)', price: 75 },
             { name: '酸辣湯', price: 35 },
             { name: '玉米濃湯', price: 35 },
-            { name: '蘿蔔湯', price: 35 },
-            { name: '旗魚花枝魚丸湯', price: 40 },
-            { name: '珍珠餛飩湯', price: 50 },
-            { name: '菜肉大餛飩湯', price: 60 },
-            // 飲品 & 小菜
-            { name: '香濃豆漿 (有糖/無加糖)', price: 20 },
-            { name: '黑豆漿', price: 20 },
-            { name: '真傳特調紅茶', price: 20 },
-            { name: '滷蛋', price: 15 },
-            { name: '黃金泡菜', price: 30 },
-            { name: '涼拌豆腐 (醬油/麻醬/紅油)', price: 30 },
-            { name: '黃金豆腐', price: 35 },
-            { name: '燙青菜', price: 35 },
-            { name: '燉蘿蔔', price: 35 },
-            { name: '和風秋葵 / 薄鹽毛豆', price: 35 },
-            { name: '家常小菜', price: 40 },
-            { name: '小菜雙拼', price: 40 },
-            { name: '柚香蘿蔔', price: 40 },
-            { name: '皮蛋豆腐 (素松)', price: 45 },
-            { name: '古早味排骨', price: 68 }
+            { name: '香濃豆漿', price: 20 },
+            { name: '燙青菜', price: 35 }
           ]
         },
         {
@@ -973,158 +882,23 @@
           category: '下午茶',
           updatedDate: '2026/11/16',
           items: [
-            // 麵包類
             { name: '丹麥菠蘿可頌', price: 42 },
             { name: '丹麥奶酥菠蘿', price: 50 },
             { name: '紅豆麻糬菠蘿', price: 50 },
-            { name: '墨魚堡菠蘿', price: 50 },
             { name: '巧克力菠蘿', price: 48 },
             { name: '北海道牛奶麵包', price: 45 },
             { name: '核桃奶酥可頌', price: 48 },
             { name: '巧克力可頌', price: 42 },
             { name: '芋頭可頌', price: 42 },
-            { name: '蘋果起司', price: 50 },
-            { name: '裸麥紅豆', price: 42 },
-            { name: '水果可頌', price: 50 },
-            { name: '新鮮蘋果派', price: 48 },
-            { name: '草莓/芒果可頌', price: 55 },
-            { name: '藍莓牛奶棒', price: 50 },
-            { name: '大奶酪麵包', price: 48 },
-            { name: '胚芽核桃', price: 65 },
-            { name: '胚芽核桃-小', price: 45 },
-            { name: '巧巴達-核桃', price: 60 },
-            { name: '三杯乳酪', price: 65 },
-            { name: '紅豆麻糬球', price: 18 },
-            { name: '巧克力麻糬球', price: 18 },
-            { name: '黃金乳酪球', price: 23 },
-            { name: '黑岩豆豆', price: 25 },
-            { name: '洋蔥乳酪', price: 25 },
-            { name: '法式芝麻球 (全素)', price: 30 },
-            { name: '原味貝果 (全素)', price: 38 },
-            { name: '中牛角', price: 35 },
-            { name: '迷你牛角 / 袋', price: 110 },
-            // 吐司與零嘴
             { name: '鮮奶吐司 (蛋奶素)', price: 75 },
             { name: '白吐司 (蛋奶素)', price: 65 },
-            { name: '紅豆吐司 (蛋奶素)', price: 75 },
-            { name: '芋頭吐司 (蛋奶素)', price: 75 },
-            { name: '全麥吐司 (蛋奶素)', price: 75 },
-            { name: '丹麥吐司 (蛋奶素)', price: 115 },
-            { name: '丹麥紅豆吐司 (蛋奶素)', price: 130 },
-            { name: '葡萄奶酥吐司 (蛋奶素)', price: 80 },
-            { name: '糙米吐司 (全素)', price: 95 },
-            { name: '法國香蒜奶油 (袋)', price: 115 },
-            { name: '奶油葡萄餐包 4入', price: 60 },
-            { name: '香蒜片 140g/包', price: 80 },
-            { name: '糖片 140g/包', price: 70 },
-            // 鹹麵包與三明治
             { name: '明太子鱈魚卵', price: 65 },
-            { name: '純乳酪可酥', price: 48 },
-            { name: '可頌蛋糕', price: 42 },
             { name: '法式乳酪香腸', price: 48 },
             { name: '大牛角', price: 45 },
             { name: '香蒜丹麥條', price: 48 },
-            { name: '鮪魚可頌', price: 48 },
-            { name: '火腿可頌', price: 48 },
-            { name: '德國香腸可頌', price: 48 },
-            { name: '法式羅宋', price: 60 },
-            { name: '海苔肉鬆可頌', price: 42 },
-            { name: '芝士馬鈴薯', price: 50 },
-            { name: '切達起士麵包', price: 50 },
-            { name: '奶香包', price: 37 },
-            { name: '培根仙人掌', price: 55 },
-            { name: '南瓜子芋頭', price: 48 },
             { name: '肉桂捲', price: 48 },
-            { name: '紅酒蔓越莓', price: 80 },
-            { name: '法式鮪魚', price: 48 },
-            { name: '法式墨魚', price: 55 },
-            { name: '法式乳酪球', price: 40 },
-            { name: '法式大蒜', price: 45 },
-            { name: '義式洋蔥吐司', price: 55 },
-            { name: '肉鬆堡', price: 40 },
-            { name: '蔥花麵包', price: 45 },
-            { name: '香蔥肉鬆捲', price: 52 },
-            { name: '花生夾心', price: 42 },
-            { name: '椰香葡萄', price: 42 },
-            { name: '牛奶甜甜圈', price: 32 },
-            { name: '大魔杖', price: 70 },
-            { name: '爆蒜乳酪', price: 68 },
-            { name: '香蔥芝士條', price: 50 },
-            { name: '咖啡核桃奶酥', price: 60 },
-            { name: '松露培根起司', price: 55 },
             { name: '燻鮭魚大牛角三明治', price: 85 },
-            { name: '黑胡椒豬肉貝果', price: 70 },
-            { name: '番茄蛋沙拉', price: 55 },
-            { name: '卡啦雞腿堡', price: 80 },
-            { name: '豬排三明治', price: 60 },
-            { name: '鮪魚起司三明治', price: 55 },
-            { name: '大牛角里肌肉三明治', price: 80 },
-            { name: '大牛角火腿三明治', price: 65 },
-            { name: '義式里肌三明治', price: 85 },
-            { name: '中牛角蔬菜沙拉', price: 45 },
-            { name: '中牛角燻雞肉', price: 50 },
-            { name: '義式黑胡椒豬肉', price: 80 },
-            { name: '巧巴達蔬菜三明治', price: 60 },
-            // 甜點蛋糕與禮盒
-            { name: '雪花糕 (夏季限定)', price: 75 },
-            { name: '草莓大福 (冬季限定/單)', price: 60 },
-            { name: '草莓大福 (冬季限定/盒)', price: 120 },
-            { name: '蜂蜜布丁', price: 38 },
-            { name: '巧克力毛巾捲', price: 36 },
-            { name: '柳橙毛巾捲', price: 36 },
-            { name: '銅鑼燒', price: 38 },
-            { name: '千層蛋塔', price: 75 },
-            { name: '馬卡龍禮盒 (一盒)', price: 380 },
-            { name: '黃金乳酪條禮盒', price: 580 },
-            { name: '阿瑪乳酪禮盒', price: 400 },
-            { name: '牛奶小西點', price: 125 },
-            { name: '摩斯乳酪蛋糕', price: 100 },
-            { name: '乳酪捲 (盒)', price: 80 },
-            { name: '巧克力燒菓子 3入', price: 75 },
-            { name: '舒芙蕾 (一入)', price: 40 },
-            { name: '舒芙蕾 (二入)', price: 75 },
-            { name: '香草拿破崙', price: 55 },
-            { name: '溶岩巧克力', price: 48 },
-            { name: '二入黃金乳酪條', price: 120 },
-            { name: '阿瑪乳酪單顆', price: 55 },
-            { name: '黃金乳酪邊', price: 85 },
-            { name: '德國布丁', price: 48 },
-            { name: '蛋塔', price: 38 },
-            { name: '桂圓蛋糕', price: 35 },
-            { name: '費南雪', price: 65 },
-            { name: '香草乳酪蛋糕', price: 45 },
-            { name: '愛麗絲乳酪', price: 38 },
-            { name: '檸檬起司派', price: 42 },
-            { name: '古早味蛋糕', price: 38 },
-            { name: '閃電泡芙', price: 65 },
-            { name: '水果仕', price: 80 },
-            { name: '雪莓娘', price: 85 },
-            // 餅乾與酥點
-            { name: '香濃起司棒-罐', price: 155 },
-            { name: '雷神巧克力馬卡龍', price: 170 },
-            { name: '夏威夷豆酥餅-包', price: 120 },
-            { name: '巧克力酥餅-包', price: 110 },
-            { name: '杏仁瓦片', price: 110 },
-            { name: '牛軋餅 (一盒)', price: 200 },
-            { name: '咖啡千層酥 (一盒)', price: 200 },
-            { name: '千層捲捲酥 (一盒)', price: 200 },
-            { name: '鳳凰酥 (一盒)', price: 420 },
-            { name: '3Q餅', price: 68 },
-            { name: '馬卡龍棒棒糖', price: 42 },
-            { name: '蛋黃酥', price: 65 },
-            { name: '菠蘿蛋黃酥', price: 65 },
-            { name: '御皇酥', price: 65 },
-            { name: '芋頭流心酥', price: 65 },
-            { name: '起司薄餅', price: 85 },
-            { name: '芋頭布列塔', price: 60 },
-            { name: '巧克力栗子餅', price: 55 },
-            { name: '蜜雷核桃', price: 52 },
-            { name: '蔓越莓三明治', price: 50 },
-            { name: '堅果塔', price: 52 },
-            { name: '鳳梨酥', price: 48 },
-            { name: '祈福棉花糖 (年節)', price: 50 },
-            { name: '草莓雪Q餅', price: 50 },
-            { name: '切達QQ燒 (年節)', price: 55 }
+            { name: '卡啦雞腿堡', price: 80 }
           ]
         }
       ],
@@ -1207,7 +981,7 @@
             <button onclick="logout()" class="px-2 py-1 text-xs border rounded-lg hover:bg-gray-100 bg-white text-gray-800">登出</button>
           </div>
         `;
-        if (promptBar) promptBar.innerHTML = `<span>✨ 已登入 Google 帳號：${appData.user.email}（您的菜單與群組資料已永久儲存）</span>`;
+        if (promptBar) promptBar.innerHTML = `<span>✨ 已登入 Google 帳號：${appData.user.email}（您的菜單與加料選項已永久儲存）</span>`;
         if (banner) banner.classList.remove('hidden');
       } else {
         area.innerHTML = `
@@ -1215,7 +989,7 @@
             Google 登入
           </button>
         `;
-        if (promptBar) promptBar.innerHTML = `<span>🔒 訪客模式：菜單已更新為五十嵐、八方雲集、丹麥之屋，點擊「Google 登入」可永久儲存自訂！</span>`;
+        if (promptBar) promptBar.innerHTML = `<span>🔒 訪客模式：已內建五十嵐加料選項，點擊「Google 登入」可永久儲存！</span>`;
         if (banner) banner.classList.add('hidden');
       }
 
@@ -1233,7 +1007,7 @@
         avatar: 'https://placehold.co/100x100/217346/ffffff?text=Ying'
       };
       localStorage.setItem('17DING_LOGGED_USER', JSON.stringify(mockUser));
-      showToast('Google 登入成功！已為您載入五十嵐、八方雲集、丹麥之屋預設菜單。');
+      showToast('Google 登入成功！已為您載入五十嵐加料選項與最新預設菜單。');
       renderUserAuth();
     }
 
@@ -1302,8 +1076,8 @@
 
     function renderOrderTable() {
       const storeId = document.getElementById('orderStoreSelect').value;
-      const groupId = document.getElementById('orderGroupSelect').value;
       const store = appData.stores.find(s => s.id === storeId);
+      const groupId = document.getElementById('orderGroupSelect').value;
       const group = appData.groups.find(g => g.id === groupId);
 
       const tbody = document.getElementById('orderTableBody');
@@ -1313,6 +1087,24 @@
         tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-400">尚無名單或菜單資料</td></tr>`;
         return;
       }
+
+      const is50Lan = store.name.includes('五十嵐');
+      // 根據是否為五十嵐動態提供加料選項
+      const addonSelectHtml = is50Lan ? `
+        <select onchange="calculateOrderTotals()" class="w-full px-2 py-1.5 border rounded-lg bg-white text-xs addon-select">
+          <option value="0" data-price="0">無加料 (+0)</option>
+          <option value="珍珠" data-price="5">加珍珠 (+5)</option>
+          <option value="波霸" data-price="5">加波霸 (+5)</option>
+          <option value="椰果" data-price="5">加椰果 (+5)</option>
+          <option value="燕麥" data-price="10">加燕麥 (+10)</option>
+          <option value="布丁" data-price="15">加布丁 (+15)</option>
+          <option value="冰淇淋" data-price="15">加冰淇淋 (+15)</option>
+        </select>
+      ` : `
+        <select class="w-full px-2 py-1.5 border rounded-lg bg-white text-xs addon-select">
+          <option value="0" data-price="0">無加價</option>
+        </select>
+      `;
 
       group.members.forEach((m) => {
         const tr = document.createElement('tr');
@@ -1330,8 +1122,8 @@
               ${itemOptionsHtml}
             </select>
           </td>
-          <td class="p-3"><select class="w-full px-2 py-1.5 border rounded-lg bg-white text-xs"><option value="0">無加價</option></select></td>
-          <td class="p-3"><input type="text" placeholder="例: 微糖微冰 / 加辣" class="w-full px-2 py-1.5 border rounded-lg text-xs"></td>
+          <td class="p-3">${addonSelectHtml}</td>
+          <td class="p-3"><input type="text" placeholder="${is50Lan ? '例: 微糖微冰' : '例: 不要香菜'}" class="w-full px-2 py-1.5 border rounded-lg text-xs"></td>
           <td class="p-3"><input type="text" placeholder="備註..." class="w-full px-2 py-1.5 border rounded-lg text-xs"></td>
           <td class="p-3 text-right font-black text-gray-900 row-total">$0</td>
         `;
@@ -1348,6 +1140,7 @@
       document.querySelectorAll('#orderTableBody tr').forEach(tr => {
         const isSkipped = tr.querySelector('.skip-checkbox').checked;
         const itemSelect = tr.querySelector('.item-select');
+        const addonSelect = tr.querySelector('.addon-select');
         const rowTotalEl = tr.querySelector('.row-total');
 
         if (isSkipped) {
@@ -1357,10 +1150,19 @@
         } else {
           tr.classList.remove('opacity-40', 'bg-gray-100');
           const opt = itemSelect.options[itemSelect.selectedIndex];
-          const price = opt && opt.dataset.price ? parseFloat(opt.dataset.price) : 0;
-          rowTotalEl.innerText = `$${price}`;
-          if (price > 0) {
-            grandTotal += price;
+          const basePrice = opt && opt.dataset.price ? parseFloat(opt.dataset.price) : 0;
+          
+          let addonPrice = 0;
+          if (addonSelect && addonSelect.selectedIndex >= 0) {
+            const addonOpt = addonSelect.options[addonSelect.selectedIndex];
+            addonPrice = addonOpt && addonOpt.dataset.price ? parseFloat(addonOpt.dataset.price) : 0;
+          }
+
+          const rowTotal = basePrice + addonPrice;
+          rowTotalEl.innerText = `$${rowTotal}`;
+
+          if (basePrice > 0) {
+            grandTotal += rowTotal;
             totalItems++;
           }
         }
@@ -1457,10 +1259,6 @@
             <h3 class="text-lg font-bold text-gray-800 mt-1">${s.name}</h3>
           </div>
           <div class="text-xs text-gray-500">已完整建檔 ${s.items.length} 個品項</div>
-          <div class="max-h-32 overflow-y-auto text-xs border-t pt-2 space-y-1 text-gray-600">
-            ${s.items.slice(0, 6).map(i => `<div class="flex justify-between"><span>${i.name}</span><span class="font-bold">$${i.price}</span></div>`).join('')}
-            ${s.items.length > 6 ? `<div class="text-center text-gray-400 pt-1">...還有 ${s.items.length - 6} 個品項</div>` : ''}
-          </div>
         </div>
       `).join('');
     }
@@ -1547,6 +1345,7 @@
       const msgEl = document.getElementById('toastMessage');
       if (!toast || !msgEl) return;
       msgEl.innerText = msg;
+      toast.classList.add('transition-all', 'duration-300');
       toast.classList.remove('hidden');
       setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
       clearTimeout(window._t);
