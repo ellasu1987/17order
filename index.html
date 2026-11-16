@@ -257,7 +257,7 @@
       color: #1d6fa5 !important;
     }
 
-    /* 2. 珍珠奶風格：大幅減少珍珠數量與密度，改為疏落幾顆珍珠點綴 */
+    /* 2. 珍珠奶風格：疏落幾顆珍珠點綴，徹底避免密集恐懼 */
     .theme-boba {
       --bg-main: #f3e3d0;
       --bg-card: #fffaf3;
@@ -462,7 +462,7 @@
   <header class="sticky top-0 z-40 border-b shadow-sm backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 h-12 flex items-center justify-between">
       <div id="loginPromptBar" class="text-xs font-bold text-amber-100 flex items-center space-x-1">
-        <span>🔒 訪客模式：預設內容固定不變；任何人登入 Google 後皆可享有個人的專屬菜單與名單紀錄！</span>
+        <span>🔒 訪客模式：預設內容固定不變；任何人登入 Google 後皆可享有個人專屬點餐空間！</span>
       </div>
       <div class="flex items-center space-x-2 shrink-0 ml-auto">
         <button onclick="toggleThemeModal()" class="flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-medium border border-gray-300 bg-white/80 hover:bg-white transition shadow-sm">
@@ -477,7 +477,7 @@
   <!-- HERO BRAND LOGO -->
   <div class="max-w-7xl mx-auto px-4 pt-3 pb-1 flex justify-center">
     <div class="inline-flex flex-col items-center justify-center select-none">
-      <img src="17order-logo.png" alt="17order 官方 LOGO" class="h-24 sm:h-32 w-auto max-w-[280px] sm:max-w-[360px] object-contain drop-shadow-sm" onerror="this.src='https://placehold.co/360x140/transparent/3a2e25?text=17order';">
+      <img src="17order-logo.png" alt="17訂 官方 LOGO" class="h-24 sm:h-32 w-auto max-w-[280px] sm:max-w-[360px] object-contain drop-shadow-sm" onerror="this.src='https://placehold.co/360x140/transparent/3a2e25?text=17訂+一起訂一起點餐';">
     </div>
   </div>
 
@@ -535,6 +535,13 @@
             <label class="block text-xs font-bold text-gray-600 uppercase mb-1">2. 選擇名單分組</label>
             <select id="orderGroupSelect" onchange="renderOrderTable()" class="w-full px-3 py-2 rounded-lg border border-gray-300 bg-white font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
             </select>
+          </div>
+        </div>
+
+        <!-- 店家快捷聯繫與點餐輔助列 -->
+        <div id="storeContactBar" class="hidden flex flex-wrap items-center justify-between gap-3 p-3 bg-amber-50/70 border border-amber-200 rounded-xl text-xs">
+          <div class="flex items-center space-x-3" id="storeContactDetails">
+            <!-- 動態填入電話、網址、LINE -->
           </div>
         </div>
 
@@ -603,7 +610,7 @@
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 class="text-xl font-extrabold text-gray-800">菜單管理庫</h2>
-          <p class="text-xs text-gray-500 mt-1">訪客模式展示固定預設菜單；登入後可自由新增、修改或刪除，所有異動僅保留於您的個人帳號中。</p>
+          <p class="text-xs text-gray-500 mt-1">可設定店家電話、線上訂餐網址與 LINE 帳號，統計後方便直接聯絡點餐。</p>
         </div>
         <div class="flex items-center space-x-2">
           <button onclick="resetDefaultStores()" class="px-3 py-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-gray-600 flex items-center space-x-1">
@@ -702,14 +709,14 @@
     </div>
   </div>
 
-  <!-- MODAL: ADD / EDIT STORE -->
+  <!-- MODAL: ADD / EDIT STORE (包含店家電話、網址、LINE) -->
   <div id="storeModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[90vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-3">
         <h3 class="font-bold text-gray-800 text-lg" id="storeModalTitle">新增店家菜單</h3>
         <button onclick="closeStoreModal()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-      <div class="space-y-4 text-sm overflow-y-auto flex-1 pr-1">
+      <div class="space-y-3 text-sm overflow-y-auto flex-1 pr-1">
         <input type="hidden" id="editStoreIdInput" value="">
         <div>
           <label class="block font-bold text-gray-700 mb-1">店家名稱</label>
@@ -719,7 +726,24 @@
           <label class="block font-bold text-gray-700 mb-1">菜單分類</label>
           <select id="storeCategoryInput" class="w-full px-3 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"></select>
         </div>
+
+        <!-- 新增：店家電話、線上訂餐網址、官方LINE帳號 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">店家電話</label>
+            <input type="text" id="storePhoneInput" placeholder="例: 02-2882-1234" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">官方 LINE / ID</label>
+            <input type="text" id="storeLineInput" placeholder="例: @50lan 或 連結" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+          </div>
+        </div>
         <div>
+          <label class="block font-bold text-gray-700 mb-1">線上訂餐網址 (URL)</label>
+          <input type="url" id="storeUrlInput" placeholder="例: https://inline.app/... 或線上點餐連結" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+        </div>
+
+        <div class="pt-2">
           <div class="flex items-center justify-between mb-1">
             <label class="font-bold text-gray-700">菜單品項與金額清單 (<span id="storeItemCountBadge">0</span> 項)</label>
             <button onclick="addStoreItemRow()" type="button" class="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center space-x-1">
@@ -727,7 +751,7 @@
               <span>新增一列品項</span>
             </button>
           </div>
-          <div id="storeItemsContainer" class="space-y-2 max-h-60 overflow-y-auto p-1 border rounded-xl bg-gray-50/50"></div>
+          <div id="storeItemsContainer" class="space-y-2 max-h-48 overflow-y-auto p-1 border rounded-xl bg-gray-50/50"></div>
         </div>
       </div>
       <div class="flex justify-end space-x-2 pt-3 border-t">
@@ -783,7 +807,7 @@
     /* 管理者帳號設定 */
     const ADMIN_EMAIL = 'ellasusj@gmail.com';
 
-    /* 固定預設資料（訪客或新用戶的標準內容） */
+    /* 固定預設資料（包含預設的電話、網址與LINE） */
     const defaultStaticData = {
       theme: 'excel',
       categories: ['手搖飲', '餐點', '下午茶'],
@@ -792,6 +816,9 @@
           id: 'store_default_50lan',
           name: '五十嵐 (50嵐)',
           category: '手搖飲',
+          phone: '02-2882-5588',
+          lineId: '@50lan',
+          orderUrl: 'https://www.50lan.com/',
           updatedDate: '2026/11/16',
           items: [
             { name: '茉莉綠茶 / 阿薩姆紅茶 (M)', price: 30 },
@@ -878,6 +905,9 @@
           id: 'store_default_8way',
           name: '八方雲集',
           category: '餐點',
+          phone: '02-2881-9988',
+          lineId: '@8way',
+          orderUrl: 'https://www.8way.com.tw/',
           updatedDate: '2026/11/16',
           items: [
             { name: '招牌鍋貼 (單粒)', price: 7 },
@@ -907,6 +937,9 @@
           id: 'store_default_danemark',
           name: '丹麥之屋 法式西點麵包',
           category: '下午茶',
+          phone: '02-2511-3322',
+          lineId: '@danemark',
+          orderUrl: 'https://www.facebook.com/danemark.bakery/',
           updatedDate: '2026/11/16',
           items: [
             { name: '丹麥菠蘿可頌', price: 42 },
@@ -951,7 +984,7 @@
       history: []
     };
 
-    /* 載入資料邏輯：動態辨識目前登入者，載入其專屬紀錄（自動過濾3年內的歷史紀錄） */
+    /* 載入資料邏輯 */
     function loadActiveData() {
       const savedUserJson = localStorage.getItem('17DING_LOGGED_USER');
       if (savedUserJson) {
@@ -966,14 +999,12 @@
             appData.groups = Array.isArray(parsed.groups) ? parsed.groups : JSON.parse(JSON.stringify(defaultStaticData.groups));
             appData.theme = parsed.theme || 'excel';
             
-            // 歷史紀錄自動過濾：只保留 3 年內的紀錄
             const threeYearsAgoMs = Date.now() - (3 * 365 * 24 * 60 * 60 * 1000);
             appData.history = (parsed.history || []).filter(h => {
               const hTime = h.timestamp || new Date(h.date.replace(/\//g, '-')).getTime();
               return hTime >= threeYearsAgoMs;
             });
           } else {
-            // 該用戶首次登入，配置一份預設資料供其個人化操作
             appData.stores = JSON.parse(JSON.stringify(defaultStaticData.stores));
             appData.groups = JSON.parse(JSON.stringify(defaultStaticData.groups));
             appData.history = [];
@@ -983,7 +1014,6 @@
           appData.user = null;
         }
       } else {
-        // 訪客模式：使用標準預設資料
         appData.user = null;
         appData.stores = JSON.parse(JSON.stringify(defaultStaticData.stores));
         appData.groups = JSON.parse(JSON.stringify(defaultStaticData.groups));
@@ -992,7 +1022,6 @@
       }
     }
 
-    /* 永久儲存該登入用戶的個人專屬紀錄 */
     function persistUserData() {
       if (appData.user && appData.user.email) {
         const userKey = '17DING_USER_DATA_' + appData.user.email;
@@ -1046,9 +1075,8 @@
       if (window.lucide) lucide.createIcons();
     }
 
-    /* 模擬多用戶 Google 登入視窗（可輸入任意信箱測試或直接以管理者登入） */
     function openLoginModal() {
-      const emailInput = prompt('請輸入您的 Google 帳號 Email（測試多用戶功能）：', 'user01@gmail.com');
+      const emailInput = prompt('請輸入您的 Google 帳號 Email：', 'ellasusj@gmail.com');
       if (!emailInput) return;
       const nameInput = prompt('請輸入您的顯示名稱：', emailInput === ADMIN_EMAIL ? '蘇盈盈 (管理者)' : '一般使用者');
       
@@ -1128,12 +1156,39 @@
     function onOrderStoreChange() {
       const storeId = document.getElementById('orderStoreSelect').value;
       const store = appData.stores.find(s => s.id === storeId);
+      const contactBar = document.getElementById('storeContactBar');
+      const contactDetails = document.getElementById('storeContactDetails');
+
       if (store) {
         document.getElementById('storeUpdatedDateText').innerText = store.updatedDate || '無紀錄';
+        
+        let html = `<span class="font-bold text-amber-900">📞 店家快速聯絡：</span>`;
+        if (store.phone) {
+          html += `<a href="tel:${store.phone}" class="inline-flex items-center space-x-1 px-2.5 py-1 rounded bg-white border border-amber-300 text-amber-800 hover:bg-amber-100 font-bold"><i data-lucide="phone" class="w-3 h-3"></i><span>${store.phone}</span></a>`;
+        } else {
+          html += `<span class="text-gray-400">未填寫電話</span>`;
+        }
+
+        if (store.lineId) {
+          html += `<span class="inline-flex items-center space-x-1 px-2.5 py-1 rounded bg-emerald-50 border border-emerald-300 text-emerald-800 font-bold"><i data-lucide="message-circle" class="w-3 h-3"></i><span>LINE: ${store.lineId}</span></span>`;
+        }
+
+        if (store.orderUrl) {
+          let formattedUrl = store.orderUrl;
+          if (!formattedUrl.startsWith('http://') && !formattedUrl.startsWith('https://')) {
+            formattedUrl = 'https://' + formattedUrl;
+          }
+          html += `<a href="${formattedUrl}" target="_blank" class="inline-flex items-center space-x-1 px-2.5 py-1 rounded bg-blue-50 border border-blue-300 text-blue-700 hover:bg-blue-100 font-bold"><i data-lucide="external-link" class="w-3 h-3"></i><span>線上訂餐網址</span></a>`;
+        }
+
+        contactDetails.innerHTML = html;
+        contactBar.classList.remove('hidden');
       } else {
         document.getElementById('storeUpdatedDateText').innerText = '-';
+        contactBar.classList.add('hidden');
       }
       renderOrderTable();
+      if (window.lucide) lucide.createIcons();
     }
 
     function renderOrderTable() {
@@ -1265,7 +1320,7 @@
       showToast('已成功儲存訂單至個人歷史紀錄（系統自動保留 3 年）！');
     }
 
-    /* MENU MANAGEMENT */
+    /* MENU MANAGEMENT (含電話、網址、LINE) */
     function openStoreModal(storeId = null) {
       if (!appData.user) {
         showToast('請先進行「Google 登入」後才能新增或編輯店家菜單！');
@@ -1281,6 +1336,10 @@
         document.getElementById('editStoreIdInput').value = store.id;
         document.getElementById('storeNameInput').value = store.name;
         document.getElementById('storeCategoryInput').value = store.category;
+        document.getElementById('storePhoneInput').value = store.phone || '';
+        document.getElementById('storeLineInput').value = store.lineId || '';
+        document.getElementById('storeUrlInput').value = store.orderUrl || '';
+        
         if (store.items && store.items.length > 0) {
           store.items.forEach(it => addStoreItemRow(it.name, it.price));
         } else {
@@ -1290,6 +1349,9 @@
         document.getElementById('storeModalTitle').innerText = '新增店家菜單';
         document.getElementById('editStoreIdInput').value = '';
         document.getElementById('storeNameInput').value = '';
+        document.getElementById('storePhoneInput').value = '';
+        document.getElementById('storeLineInput').value = '';
+        document.getElementById('storeUrlInput').value = '';
         addStoreItemRow();
       }
       updateStoreItemCountBadge();
@@ -1324,6 +1386,10 @@
       const editId = document.getElementById('editStoreIdInput').value;
       const name = document.getElementById('storeNameInput').value.trim();
       const category = document.getElementById('storeCategoryInput').value;
+      const phone = document.getElementById('storePhoneInput').value.trim();
+      const lineId = document.getElementById('storeLineInput').value.trim();
+      const orderUrl = document.getElementById('storeUrlInput').value.trim();
+
       if (!name) { showToast('請輸入店家名稱'); return; }
 
       const items = [];
@@ -1342,16 +1408,22 @@
             ...appData.stores[idx],
             name: name,
             category: category,
+            phone: phone,
+            lineId: lineId,
+            orderUrl: orderUrl,
             updatedDate: todayStr,
             items: items
           };
-          showToast('店家菜單已更新並永久保留於您的帳號！');
+          showToast('店家菜單與聯繫資訊已更新並永久保留！');
         }
       } else {
         appData.stores.push({
           id: 'store_' + Date.now(),
           name: name,
           category: category,
+          phone: phone,
+          lineId: lineId,
+          orderUrl: orderUrl,
           updatedDate: todayStr,
           items: items
         });
@@ -1420,10 +1492,27 @@
                 </button>
               </div>
             </div>
+
+            <!-- 店家快速聯繫資訊顯示 -->
+            <div class="text-xs space-y-1 bg-gray-50 p-2.5 rounded-xl border">
+              <div class="flex items-center space-x-1.5 text-gray-700">
+                <i data-lucide="phone" class="w-3.5 h-3.5 text-amber-600"></i>
+                <span class="font-medium">電話：${s.phone ? `<a href="tel:${s.phone}" class="text-amber-800 font-bold underline">${s.phone}</a>` : '<span class="text-gray-400">未填寫</span>'}</span>
+              </div>
+              <div class="flex items-center space-x-1.5 text-gray-700">
+                <i data-lucide="message-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span class="font-medium">LINE：${s.lineId || '<span class="text-gray-400">未填寫</span>'}</span>
+              </div>
+              <div class="flex items-center space-x-1.5 text-gray-700 truncate">
+                <i data-lucide="external-link" class="w-3.5 h-3.5 text-blue-600"></i>
+                <span class="font-medium truncate">網址：${s.orderUrl ? `<a href="${s.orderUrl}" target="_blank" class="text-blue-600 underline truncate">${s.orderUrl}</a>` : '<span class="text-gray-400">未填寫</span>'}</span>
+              </div>
+            </div>
+
             <div class="text-xs text-gray-500">共 ${s.items.length} 個品項 · 更新於 ${s.updatedDate || '-'}</div>
-            <div class="max-h-36 overflow-y-auto text-xs border-t pt-2 space-y-1.5 text-gray-600 pr-1">
-              ${s.items.slice(0, 8).map(i => `<div class="flex justify-between"><span>${i.name}</span><span class="font-bold text-gray-800">$${i.price}</span></div>`).join('')}
-              ${s.items.length > 8 ? `<div class="text-center text-gray-400 pt-1">...點擊「編輯」可查看與修改全部 ${s.items.length} 項</div>` : ''}
+            <div class="max-h-28 overflow-y-auto text-xs border-t pt-2 space-y-1.5 text-gray-600 pr-1">
+              ${s.items.slice(0, 6).map(i => `<div class="flex justify-between"><span>${i.name}</span><span class="font-bold text-gray-800">$${i.price}</span></div>`).join('')}
+              ${s.items.length > 6 ? `<div class="text-center text-gray-400 pt-1">...等全部 ${s.items.length} 項</div>` : ''}
             </div>
           </div>
         </div>
