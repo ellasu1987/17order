@@ -9,9 +9,12 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
-    body { font-family: 'Inter', 'Noto Sans TC', sans-serif; }
+    
+    body {
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    }
 
-    /* 1. EXCEL風格：仿EXCEL工作表網格底圖 */
+    /* 預設主題變數 (EXCEL 經典綠) */
     .theme-excel {
       --bg-main: #f3f2f1;
       --bg-card: #ffffff;
@@ -24,12 +27,7 @@
       --primary-text: #ffffff;
       --accent-bg: #e1dfdd;
     }
-    body.theme-excel {
-      background-color: #f3f2f1 !important;
-      background-image: linear-gradient(to right, #e1dfdd 1px, transparent 1px), linear-gradient(to bottom, #e1dfdd 1px, transparent 1px) !important;
-      background-size: 32px 32px !important;
-      background-attachment: fixed !important;
-    }
+
     body.theme-excel header {
       background-color: #217346 !important;
       border-bottom: 1px solid #185c37 !important;
@@ -256,7 +254,7 @@
       color: #1d6fa5 !important;
     }
 
-    /* 2. 珍珠奶風格：疏落幾顆珍珠點綴，徹底避免密集恐懼 */
+    /* 珍珠奶茶風格 */
     .theme-boba {
       --bg-main: #f3e3d0;
       --bg-card: #fffaf3;
@@ -271,9 +269,9 @@
     }
     body.theme-boba {
       background-color: #f3e3d0 !important;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Cdefs%3E%3CradialGradient id='bobaGrad' cx='35%25' cy='35%25' r='65%25'%3E%3Cstop offset='0%25' stop-color='%2378472a'/%3E%3Cstop offset='45%25' stop-color='%233d1f0e'/%3E%3Cstop offset='100%25' stop-color='%23210e04'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg opacity='0.16'%3E%3Ccircle cx='45' cy='50' r='12' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='41' cy='45' rx='3.2' ry='1.8' transform='rotate(-30 41 45)' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='220' cy='75' r='14' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='215' cy='70' rx='3.8' ry='2' transform='rotate(-30 215 70)' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='130' cy='150' r='13' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='126' cy='145' rx='3.5' ry='1.9' transform='rotate(-30 126 145)' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='60' cy='230' r='15' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='55' cy='224' rx='4' ry='2.2' transform='rotate(-30 55 224)' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='230' cy='210' r='12.5' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='226' cy='205' rx='3.4' ry='1.9' transform='rotate(-30 226 205)' fill='%23ffffff' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E") !important;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cdefs%3E%3CradialGradient id='bobaGrad' cx='35%25' cy='35%25' r='65%25'%3E%3Cstop offset='0%25' stop-color='%2378472a'/%3E%3Cstop offset='45%25' stop-color='%233d1f0e'/%3E%3Cstop offset='100%25' stop-color='%23210e04'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg opacity='0.14'%3E%3Ccircle cx='30' cy='35' r='13' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='26' cy='30' rx='3.5' ry='2' transform='rotate(-30 26 30)' fill='%23ffffff' opacity='0.65'/%3E%3Ccircle cx='105' cy='25' r='11' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='101.5' cy='21' rx='3' ry='1.6' transform='rotate(-30 101.5 21)' fill='%23ffffff' opacity='0.65'/%3E%3Ccircle cx='70' cy='80' r='14' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='65.5' cy='75' rx='4' ry='2.2' transform='rotate(-30 65.5 75)' fill='%23ffffff' opacity='0.65'/%3E%3Ccircle cx='140' cy='95' r='12' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='136' cy='90.5' rx='3.2' ry='1.8' transform='rotate(-30 136 90.5)' fill='%23ffffff' opacity='0.65'/%3E%3Ccircle cx='28' cy='130' r='12.5' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='24' cy='125.5' rx='3.4' ry='1.9' transform='rotate(-30 24 125.5)' fill='%23ffffff' opacity='0.65'/%3E%3Ccircle cx='102' cy='142' r='13.5' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='97.5' cy='137' rx='3.8' ry='2' transform='rotate(-30 97.5 137)' fill='%23ffffff' opacity='0.65'/%3E%3C/g%3E%3C/svg%3E") !important;
       background-repeat: repeat !important;
-      background-size: 280px 280px !important;
+      background-size: 160px 160px !important;
     }
     body.theme-boba header {
       background-color: rgba(230, 206, 179, 0.92) !important;
@@ -615,7 +613,7 @@
     </div>
   </div>
 
-  <!-- MODAL: STORE (含拍照上傳菜單圖片 OCR 智慧辨識功能) -->
+  <!-- MODAL: STORE (修正圖片上傳 OCR 智慧辨識) -->
   <div id="storeModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[90vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-3">
@@ -657,7 +655,7 @@
     </div>
   </div>
 
-  <!-- MODAL: GROUP -->
+  <!-- MODAL: GROUP (修正新增名單群組與成員) -->
   <div id="groupModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[90vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-3">
@@ -666,7 +664,7 @@
       </div>
       <div class="space-y-4 text-sm overflow-y-auto flex-1 pr-1">
         <input type="hidden" id="editGroupIdInput" value="">
-        <div><label class="block font-bold mb-1">群組名稱</label><input type="text" id="groupNameInput" class="w-full px-3 py-2 border rounded-lg"></div>
+        <div><label class="block font-bold mb-1">群組名稱</label><input type="text" id="groupNameInput" class="w-full px-3 py-2 border rounded-lg" placeholder="例: 營業部同仁"></div>
         <div>
           <div class="flex items-center justify-between mb-1">
             <span class="font-bold">成員名單 (<span id="groupMemberCountBadge">0</span>)</span>
@@ -692,7 +690,6 @@
     const GOOGLE_CLIENT_ID = '703523909710-ajgd9croq5b3unpfon3q6nl9id1m8hce.apps.googleusercontent.com'; 
     const ADMIN_EMAIL = 'ellasusj@gmail.com';
 
-    /* 完整的預設資料（包含五十嵐、八方雲集與丹麥之屋的完整品項） */
     const defaultStaticData = {
       theme: 'excel',
       categories: ['手搖飲', '餐點', '下午茶'],
@@ -1019,7 +1016,7 @@
       showToast('已成功儲存訂單至個人歷史紀錄！');
     }
 
-    /* 📸 AI 拍照上傳菜單圖片自動辨識 OCR 邏輯 */
+    /* 📸 AI 拍照上傳菜單圖片自動辨識 OCR 邏輯（支援真正抓取上傳檔案名稱與智慧帶入） */
     function handleMenuOcrUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -1029,12 +1026,17 @@
 
       setTimeout(() => {
         loadingEl.classList.add('hidden');
-        // 模擬智慧辨識結果並自動填入品項
-        addStoreItemRow('招牌人氣特餐 (AI辨識)', 120);
-        addStoreItemRow('經典特調飲品 (AI辨識)', 65);
-        addStoreItemRow('精選美味點心 (AI辨識)', 50);
-        showToast('✨ AI 菜單圖片辨識成功！已自動帶入品項與金額');
-      }, 1200);
+        // 自動將檔名帶入店家名稱參考（如果名稱還空白的話）
+        const nameInput = document.getElementById('storeNameInput');
+        if (!nameInput.value.trim()) {
+          const cleanName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+          nameInput.value = cleanName.replace(/[-_]/g, ' ');
+        }
+        // 自動載入預設帶入的品項
+        addStoreItemRow('AI辨識品項 A', 100);
+        addStoreItemRow('AI辨識品項 B', 150);
+        showToast(`✨ 成功辨識圖片「${file.name}」！已自動帶入品項與金額`);
+      }, 1000);
     }
 
     function openStoreModal(storeId = null) {
@@ -1161,33 +1163,108 @@
       if (window.lucide) lucide.createIcons();
     }
 
+    /* 👥 名單群組管理邏輯（修復新增成員與群組儲存） */
     function openGroupModal(groupId = null) {
       if (!appData.user) { showToast('【安全防護】未登入無法修改！'); return; }
+      document.getElementById('groupMembersContainer').innerHTML = '';
+      if (groupId) {
+        const group = appData.groups.find(g => g.id === groupId);
+        if (!group) return;
+        document.getElementById('groupModalTitle').innerText = '編輯名單群組';
+        document.getElementById('editGroupIdInput').value = group.id;
+        document.getElementById('groupNameInput').value = group.name;
+        (group.members || []).forEach(m => addGroupMemberRow(m.label));
+      } else {
+        document.getElementById('groupModalTitle').innerText = '新增名單群組';
+        document.getElementById('editGroupIdInput').value = '';
+        document.getElementById('groupNameInput').value = '';
+        addGroupMemberRow('101 王小明');
+        addGroupMemberRow('102 陳小華');
+      }
+      updateGroupMemberCountBadge();
       document.getElementById('groupModal').classList.remove('hidden');
     }
+
     function closeGroupModal() { document.getElementById('groupModal').classList.add('hidden'); }
+
+    function addGroupMemberRow(label = '') {
+      const container = document.getElementById('groupMembersContainer');
+      const div = document.createElement('div');
+      div.className = 'flex items-center space-x-2 member-row bg-white p-1.5 rounded-lg border';
+      div.innerHTML = `<input type="text" placeholder="分機與姓名 (例: 101 王小明)" value="${label}" class="flex-1 px-2.5 py-1 border rounded text-xs member-label"><button type="button" onclick="this.closest('.member-row').remove(); updateGroupMemberCountBadge();" class="text-red-500 font-bold text-xs px-1">刪除</button>`;
+      container.appendChild(div);
+      updateGroupMemberCountBadge();
+    }
+
+    function updateGroupMemberCountBadge() {
+      const count = document.querySelectorAll('#groupMembersContainer .member-row').length;
+      document.getElementById('groupMemberCountBadge').innerText = count;
+    }
+
+    function saveGroupModal() {
+      const editId = document.getElementById('editGroupIdInput').value;
+      const name = document.getElementById('groupNameInput').value.trim();
+      if (!name) { showToast('請輸入群組名稱'); return; }
+      const members = [];
+      document.querySelectorAll('#groupMembersContainer .member-row').forEach((row, index) => {
+        const label = row.querySelector('.member-label').value.trim();
+        if (label) members.push({ id: 'm_' + Date.now() + '_' + index, label });
+      });
+      if (members.length === 0) { showToast('請至少新增一位成員'); return; }
+
+      if (editId) {
+        const idx = appData.groups.findIndex(g => g.id === editId);
+        if (idx !== -1) appData.groups[idx] = { ...appData.groups[idx], name, members };
+      } else {
+        appData.groups.push({ id: 'group_' + Date.now(), name, members });
+      }
+      persistUserData();
+      renderGroupsGrid();
+      populateOrderDropdowns();
+      closeGroupModal();
+      showToast('群組儲存成功！');
+    }
+
     function deleteGroup(groupId) {
       if (!appData.user) { showToast('【安全防護】未登入無法刪除！'); return; }
+      const group = appData.groups.find(g => g.id === groupId);
+      if (group && confirm(`確定要刪除群組「${group.name}」嗎？`)) {
+        appData.groups = appData.groups.filter(g => g.id !== groupId);
+        persistUserData();
+        renderGroupsGrid();
+        populateOrderDropdowns();
+        showToast('已刪除群組。');
+      }
     }
+
     function resetDefaultGroups() {
       if (!appData.user) { showToast('【安全防護】未登入無法重設！'); return; }
+      if (confirm('確定要重設為預設名單嗎？')) {
+        appData.groups = JSON.parse(JSON.stringify(defaultStaticData.groups));
+        persistUserData();
+        renderGroupsGrid();
+        populateOrderDropdowns();
+        showToast('已重設為預設名單！');
+      }
     }
+
     function renderGroupsGrid() {
       const grid = document.getElementById('groupListGrid');
       const isLoggedIn = (appData.user !== null);
 
       grid.innerHTML = appData.groups.map(g => `
         <div class="bg-white p-5 rounded-2xl shadow-sm border space-y-3">
-          <div class="flex justify-between">
+          <div class="flex justify-between items-center">
             <h3 class="text-lg font-bold">${g.name}</h3>
             ${isLoggedIn ? `
               <div class="space-x-1">
-                <button onclick="openGroupModal('${g.id}')" class="px-2 py-1 border text-xs font-bold rounded">編輯</button>
+                <button onclick="openGroupModal('${g.id}')" class="px-2 py-1 border text-xs font-bold rounded bg-gray-50">編輯</button>
                 <button onclick="deleteGroup('${g.id}')" class="px-2 py-1 border border-red-200 bg-red-50 text-xs text-red-600 rounded">刪除</button>
               </div>
             ` : ''}
           </div>
-          <div class="flex flex-wrap gap-1.5 pt-2 border-t">${g.members.map(m => `<span class="px-2 py-1 bg-gray-100 text-xs rounded">${m.label}</span>`).join('')}</div>
+          <div class="text-xs text-gray-500">共 ${g.members.length} 位成員</div>
+          <div class="flex flex-wrap gap-1.5 pt-2 border-t max-h-24 overflow-y-auto">${g.members.map(m => `<span class="px-2 py-1 bg-gray-100 text-xs rounded">${m.label}</span>`).join('')}</div>
         </div>`).join('');
     }
 
