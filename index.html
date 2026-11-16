@@ -6,6 +6,8 @@
   <title>17訂 - 一起訂一起點餐系統</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- 引入 Google Sign-In SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
     body {
@@ -462,7 +464,7 @@
   <header class="sticky top-0 z-40 border-b shadow-sm backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 h-12 flex items-center justify-between">
       <div id="loginPromptBar" class="text-xs font-bold text-amber-100 flex items-center space-x-1">
-        <span>🔒 訪客模式：預設內容固定不變；任何人登入 Google 後皆可享有個人專屬點餐空間！</span>
+        <span>🔒 訪客模式：預設內容固定不變；點擊「Google 登入」可透過真實 Google 帳號擁有個人專屬空間！</span>
       </div>
       <div class="flex items-center space-x-2 shrink-0 ml-auto">
         <button onclick="toggleThemeModal()" class="flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-medium border border-gray-300 bg-white/80 hover:bg-white transition shadow-sm">
@@ -709,7 +711,7 @@
     </div>
   </div>
 
-  <!-- MODAL: ADD / EDIT STORE (包含店家電話、網址、LINE) -->
+  <!-- MODAL: ADD / EDIT STORE -->
   <div id="storeModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[90vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-3">
@@ -727,7 +729,6 @@
           <select id="storeCategoryInput" class="w-full px-3 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"></select>
         </div>
 
-        <!-- 新增：店家電話、線上訂餐網址、官方LINE帳號 -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
           <div>
             <label class="block font-bold text-gray-700 mb-1">店家電話</label>
@@ -735,12 +736,12 @@
           </div>
           <div>
             <label class="block font-bold text-gray-700 mb-1">官方 LINE / ID</label>
-            <input type="text" id="storeLineInput" placeholder="例: @50lan 或 連結" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+            <input type="text" id="storeLineInput" placeholder="例: @50lan" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
           </div>
         </div>
         <div>
           <label class="block font-bold text-gray-700 mb-1">線上訂餐網址 (URL)</label>
-          <input type="url" id="storeUrlInput" placeholder="例: https://inline.app/... 或線上點餐連結" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
+          <input type="url" id="storeUrlInput" placeholder="例: https://inline.app/..." class="w-full px-3 py-2 border rounded-lg focus:outline-none">
         </div>
 
         <div class="pt-2">
@@ -804,10 +805,14 @@
   </div>
 
   <script>
-    /* 管理者帳號設定 */
+    /* ---------------------------------------------------------------- */
+    /* Google OAuth 2.0 設定與初始化                                      */
+    /* 請至 Google Cloud Console 建立 Client ID 並填入下方              */
+    /* ---------------------------------------------------------------- */
+    const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com'; 
     const ADMIN_EMAIL = 'ellasusj@gmail.com';
 
-    /* 固定預設資料（包含預設的電話、網址與LINE） */
+    /* 固定預設資料 */
     const defaultStaticData = {
       theme: 'excel',
       categories: ['手搖飲', '餐點', '下午茶'],
@@ -827,78 +832,12 @@
             { name: '四季春青茶 (L)', price: 35 },
             { name: '黃金烏龍 (M)', price: 30 },
             { name: '黃金烏龍 (L)', price: 35 },
-            { name: '椰果紅 / 綠 (M)', price: 35 },
-            { name: '椰果紅 / 綠 (L)', price: 45 },
-            { name: '波霸紅 / 綠 (M)', price: 35 },
-            { name: '波霸紅 / 綠 (L)', price: 45 },
-            { name: '燕麥紅 / 綠 / 青 (M)', price: 35 },
-            { name: '燕麥紅 / 綠 / 青 (L)', price: 45 },
-            { name: '微檸檬紅 / 青 (M)', price: 35 },
-            { name: '微檸檬紅 / 青 (L)', price: 45 },
-            { name: '檸檬綠 / 青 (M)', price: 40 },
-            { name: '檸檬綠 / 青 (L)', price: 55 },
-            { name: '梅の綠 (M)', price: 40 },
-            { name: '梅の綠 (L)', price: 55 },
-            { name: '8冰綠 / 情人茶 (M)', price: 40 },
-            { name: '8冰綠 / 情人茶 (L)', price: 55 },
-            { name: '柚子紅 / 綠 (M)', price: 40 },
-            { name: '柚子紅 / 綠 (L)', price: 55 },
-            { name: '柚子青 / 烏 (M)', price: 40 },
-            { name: '柚子青 / 烏 (L)', price: 55 },
-            { name: '冰淇淋紅茶 (M)', price: 40 },
-            { name: '冰淇淋紅茶 (L)', price: 55 },
-            { name: '多多綠 / 紅 (M)', price: 40 },
-            { name: '多多綠 / 紅 (L)', price: 55 },
-            { name: '多多檸檬綠 (M)', price: 50 },
-            { name: '多多檸檬綠 (L)', price: 65 },
-            { name: '奶茶 (M)', price: 40 },
-            { name: '奶茶 (L)', price: 55 },
-            { name: '奶綠 (M)', price: 40 },
-            { name: '奶綠 (L)', price: 55 },
-            { name: '烏龍奶 (M)', price: 40 },
-            { name: '烏龍奶 (L)', price: 55 },
             { name: '珍珠奶茶 (M)', price: 40 },
             { name: '珍珠奶茶 (L)', price: 55 },
             { name: '波霸奶茶 (M)', price: 40 },
             { name: '波霸奶茶 (L)', price: 55 },
-            { name: '布丁奶茶 (M)', price: 50 },
-            { name: '布丁奶茶 (L)', price: 65 },
-            { name: '冰淇淋奶茶 (M)', price: 50 },
-            { name: '冰淇淋奶茶 (L)', price: 65 },
-            { name: '阿華田 (M)', price: 45 },
-            { name: '阿華田 (L)', price: 60 },
-            { name: '可可芭蕾 (M)', price: 50 },
-            { name: '可可芭蕾 (L)', price: 65 },
             { name: '紅茶拿鐵 (M)', price: 50 },
-            { name: '紅茶拿鐵 (L)', price: 65 },
-            { name: '綠茶拿鐵 (M)', price: 50 },
-            { name: '綠茶拿鐵 (L)', price: 65 },
-            { name: '烏龍拿鐵 (M)', price: 50 },
-            { name: '烏龍拿鐵 (L)', price: 65 },
-            { name: '珍珠紅茶拿鐵 (M)', price: 50 },
-            { name: '珍珠紅茶拿鐵 (L)', price: 65 },
-            { name: '波霸紅茶拿鐵 (M)', price: 50 },
-            { name: '波霸紅茶拿鐵 (L)', price: 65 },
-            { name: '布丁紅茶拿鐵 (M)', price: 55 },
-            { name: '布丁紅茶拿鐵 (L)', price: 75 },
-            { name: '冰淇淋紅茶拿鐵 (M)', price: 55 },
-            { name: '冰淇淋紅茶拿鐵 (L)', price: 75 },
-            { name: '阿華田拿鐵 (M)', price: 55 },
-            { name: '阿華田拿鐵 (L)', price: 75 },
-            { name: '可可芭蕾拿鐵 (M)', price: 55 },
-            { name: '可可芭蕾拿鐵 (L)', price: 75 },
-            { name: '柚子茶 (M)', price: 40 },
-            { name: '柚子茶 (L)', price: 55 },
-            { name: '檸檬汁 (M)', price: 50 },
-            { name: '檸檬汁 (L)', price: 65 },
-            { name: '金桔檸檬 (M)', price: 50 },
-            { name: '金桔檸檬 (L)', price: 65 },
-            { name: '蜂蜜紅 / 綠 (M)', price: 40 },
-            { name: '蜂蜜紅 / 綠 (L)', price: 55 },
-            { name: '蜂蜜奶茶 (M)', price: 50 },
-            { name: '蜂蜜奶茶 (L)', price: 65 },
-            { name: '鮮柚綠 / 葡萄柚汁 (M)', price: 50 },
-            { name: '鮮柚綠 / 葡萄柚汁 (L)', price: 65 }
+            { name: '紅茶拿鐵 (L)', price: 65 }
           ]
         },
         {
@@ -912,53 +851,9 @@
           items: [
             { name: '招牌鍋貼 (單粒)', price: 7 },
             { name: '韭菜鍋貼 (單粒)', price: 7 },
-            { name: '韓式辣味鍋貼 (單粒)', price: 7 },
-            { name: '咖哩鍋貼 (單粒)', price: 7 },
-            { name: '玉米鍋貼 (單粒)', price: 7 },
-            { name: '新蔬食鍋貼 (單粒)', price: 7.5 },
             { name: '招牌水餃 (單粒)', price: 7 },
-            { name: '韭菜水餃 (單粒)', price: 7 },
-            { name: '韓式辣味水餃 (單粒)', price: 7 },
-            { name: '鮮蝦水餃 (單粒)', price: 10.5 },
-            { name: '酸辣湯餃 (8顆裝)', price: 90 },
-            { name: '紅燒牛肉麵 / 冬粉', price: 168 },
-            { name: '清燉牛肉麵 / 冬粉', price: 168 },
-            { name: '麻辣牛肉麵 / 冬粉', price: 178 },
-            { name: '古早味乾麵', price: 45 },
-            { name: '麻醬乾麵', price: 55 },
-            { name: '招牌乾麵 (微辣)', price: 55 },
             { name: '酸辣湯', price: 35 },
-            { name: '玉米濃湯', price: 35 },
-            { name: '香濃豆漿', price: 20 },
-            { name: '燙青菜', price: 35 }
-          ]
-        },
-        {
-          id: 'store_default_danemark',
-          name: '丹麥之屋 法式西點麵包',
-          category: '下午茶',
-          phone: '02-2511-3322',
-          lineId: '@danemark',
-          orderUrl: 'https://www.facebook.com/danemark.bakery/',
-          updatedDate: '2026/11/16',
-          items: [
-            { name: '丹麥菠蘿可頌', price: 42 },
-            { name: '丹麥奶酥菠蘿', price: 50 },
-            { name: '紅豆麻糬菠蘿', price: 50 },
-            { name: '巧克力菠蘿', price: 48 },
-            { name: '北海道牛奶麵包', price: 45 },
-            { name: '核桃奶酥可頌', price: 48 },
-            { name: '巧克力可頌', price: 42 },
-            { name: '芋頭可頌', price: 42 },
-            { name: '鮮奶吐司 (蛋奶素)', price: 75 },
-            { name: '白吐司 (蛋奶素)', price: 65 },
-            { name: '明太子鱈魚卵', price: 65 },
-            { name: '法式乳酪香腸', price: 48 },
-            { name: '大牛角', price: 45 },
-            { name: '香蒜丹麥條', price: 48 },
-            { name: '肉桂捲', price: 48 },
-            { name: '燻鮭魚大牛角三明治', price: 85 },
-            { name: '卡啦雞腿堡', price: 80 }
+            { name: '玉米濃湯', price: 35 }
           ]
         }
       ],
@@ -1034,6 +929,7 @@
       }
     }
 
+    /* 渲染使用者授權狀態與 Google 登入按鈕 */
     function renderUserAuth() {
       loadActiveData();
       const area = document.getElementById('userAuthArea');
@@ -1054,17 +950,17 @@
             <button onclick="logout()" class="px-2 py-1 text-xs border rounded-lg hover:bg-gray-100 bg-white text-gray-800">登出</button>
           </div>
         `;
-        if (promptBar) promptBar.innerHTML = `<span>✨ 已登入 (${appData.user.email}) ${isAdmin ? '【管理者模式】' : '【個人專屬空間】'}：所有菜單與名單異動已安全儲存。</span>`;
-        if (bannerText) bannerText.innerText = isAdmin ? `歡迎回來，管理者！已載入系統與您的個人專屬紀錄（三年歷史自動保留）。` : `歡迎回來，${appData.user.name}！已載入您的個人專屬點餐與菜單紀錄。`;
+        if (promptBar) promptBar.innerHTML = `<span>✨ 已以真實 Google 帳號登入 (${appData.user.email}) ${isAdmin ? '【管理者模式】' : '【個人專屬空間】'}</span>`;
+        if (bannerText) bannerText.innerText = isAdmin ? `歡迎回來，管理者！已載入系統與您的個人專屬紀錄。` : `歡迎回來，${appData.user.name}！已載入您的個人專屬點餐紀錄。`;
         if (banner) banner.classList.remove('hidden');
       } else {
-        area.innerHTML = `
-          <button onclick="openLoginModal()" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-500 text-amber-700 bg-white hover:bg-amber-50 transition shadow-sm">
-            Google 登入
-          </button>
-        `;
-        if (promptBar) promptBar.innerHTML = `<span>🔒 訪客模式：預設內容固定不變；任何人皆可點擊「Google 登入」擁有自己的專屬空間！</span>`;
+        // 未登入狀態：渲染官方 Google 登入按鈕容器
+        area.innerHTML = `<div id="googleSignInBtnContainer"></div>`;
+        if (promptBar) promptBar.innerHTML = `<span>🔒 訪客模式：請點擊右上方「Sign in with Google」透過真實 Google 帳號登入！</span>`;
         if (banner) banner.classList.add('hidden');
+
+        // 初始化 Google Identity Services
+        initGoogleSignIn();
       }
 
       applyTheme(appData.theme);
@@ -1075,24 +971,64 @@
       if (window.lucide) lucide.createIcons();
     }
 
-    function openLoginModal() {
-      const emailInput = prompt('請輸入您的 Google 帳號 Email：', 'ellasusj@gmail.com');
-      if (!emailInput) return;
-      const nameInput = prompt('請輸入您的顯示名稱：', emailInput === ADMIN_EMAIL ? '蘇盈盈 (管理者)' : '一般使用者');
-      
-      const mockUser = {
-        name: nameInput || 'Google 用戶',
-        email: emailInput.trim(),
-        avatar: `https://placehold.co/100x100/217346/ffffff?text=${encodeURIComponent((nameInput || 'U').charAt(0))}`
-      };
-      localStorage.setItem('17DING_LOGGED_USER', JSON.stringify(mockUser));
-      showToast(`登入成功！歡迎 ${mockUser.name}`);
-      renderUserAuth();
+    /* 初始化真實 Google 登入 */
+    function initGoogleSignIn() {
+      if (typeof google === 'undefined' || !google.accounts) {
+        setTimeout(initGoogleSignIn, 500);
+        return;
+      }
+
+      if (GOOGLE_CLIENT_ID.includes('YOUR_GOOGLE_CLIENT_ID')) {
+        const container = document.getElementById('googleSignInBtnContainer');
+        if (container) {
+          container.innerHTML = `<button onclick="alert('請先至 Google Cloud Console 建立 Client ID 並替換程式碼中的 GOOGLE_CLIENT_ID 變數！');" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-500 text-amber-700 bg-white hover:bg-amber-50">設定 Google 登入</button>`;
+        }
+        return;
+      }
+
+      try {
+        google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleGoogleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+          document.getElementById('googleSignInBtnContainer'),
+          { theme: 'outline', size: 'small', text: 'signin_with', shape: 'pill' }
+        );
+      } catch (e) {
+        console.error('Google Sign-In 初始化失敗:', e);
+      }
+    }
+
+    /* 解析 Google 登入回傳的 JWT Token */
+    function handleGoogleCredentialResponse(response) {
+      try {
+        const token = response.credential;
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        const profile = JSON.parse(jsonPayload);
+        
+        const realUser = {
+          name: profile.name,
+          email: profile.email,
+          avatar: profile.picture
+        };
+
+        localStorage.setItem('17DING_LOGGED_USER', JSON.stringify(realUser));
+        showToast(`Google 驗證成功！歡迎 ${realUser.name}`);
+        renderUserAuth();
+      } catch (error) {
+        showToast('Google 登入解析失敗，請再試一次。');
+      }
     }
 
     function logout() {
       localStorage.removeItem('17DING_LOGGED_USER');
-      showToast('已登出，切換回訪客預設檢視。');
+      showToast('已登出 Google 帳號。');
       renderUserAuth();
     }
 
@@ -1299,7 +1235,7 @@
 
     function saveCurrentOrderToHistory() {
       if (!appData.user) {
-        showToast('請先進行「Google 登入」後才能儲存歷史訂單！');
+        showToast('請先進行 Google 登入後才能儲存歷史訂單！');
         return;
       }
       const storeId = document.getElementById('orderStoreSelect').value;
@@ -1320,10 +1256,10 @@
       showToast('已成功儲存訂單至個人歷史紀錄（系統自動保留 3 年）！');
     }
 
-    /* MENU MANAGEMENT (含電話、網址、LINE) */
+    /* MENU MANAGEMENT */
     function openStoreModal(storeId = null) {
       if (!appData.user) {
-        showToast('請先進行「Google 登入」後才能新增或編輯店家菜單！');
+        showToast('請先進行 Google 登入後才能新增或編輯店家菜單！');
         return;
       }
       document.getElementById('storeCategoryInput').innerHTML = appData.categories.map(c => `<option value="${c}">${c}</option>`).join('');
@@ -1438,7 +1374,7 @@
 
     function deleteStore(storeId) {
       if (!appData.user) {
-        showToast('請先進行「Google 登入」後才能刪除店家菜單！');
+        showToast('請先進行 Google 登入後才能刪除店家菜單！');
         return;
       }
       const store = appData.stores.find(s => s.id === storeId);
@@ -1455,7 +1391,7 @@
 
     function resetDefaultStores() {
       if (!appData.user) {
-        showToast('請先進行「Google 登入」後才能操作！');
+        showToast('請先進行 Google 登入後才能操作！');
         return;
       }
       if (confirm('確定要將菜單重設為預設狀態嗎？')) {
@@ -1493,7 +1429,6 @@
               </div>
             </div>
 
-            <!-- 店家快速聯繫資訊顯示 -->
             <div class="text-xs space-y-1 bg-gray-50 p-2.5 rounded-xl border">
               <div class="flex items-center space-x-1.5 text-gray-700">
                 <i data-lucide="phone" class="w-3.5 h-3.5 text-amber-600"></i>
@@ -1523,7 +1458,7 @@
     /* GROUP MANAGEMENT */
     function openGroupModal(groupId = null) {
       if (!appData.user) {
-        showToast('請先進行「Google 登入」後才能新增或編輯名單群組！');
+        showToast('請先進行 Google 登入後才能新增或編輯名單群組！');
         return;
       }
       document.getElementById('groupMembersContainer').innerHTML = '';
@@ -1610,7 +1545,7 @@
 
     function deleteGroup(groupId) {
       if (!appData.user) {
-        showToast('請先進行「Google 登入」後才能刪除名單群組！');
+        showToast('請先進行 Google 登入後才能刪除名單群組！');
         return;
       }
       const group = appData.groups.find(g => g.id === groupId);
@@ -1627,7 +1562,7 @@
 
     function resetDefaultGroups() {
       if (!appData.user) {
-        showToast('請先進行「Google 登入」後才能操作！');
+        showToast('請先進行 Google 登入後才能操作！');
         return;
       }
       if (confirm('確定要將名單重設為預設群組嗎？')) {
