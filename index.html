@@ -464,7 +464,7 @@
   <header class="sticky top-0 z-40 border-b shadow-sm backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 h-12 flex items-center justify-between">
       <div id="loginPromptBar" class="text-xs font-bold text-amber-100 flex items-center space-x-1">
-        <span>🔒 訪客模式：預設內容固定不變；點擊「Google 登入」可透過真實 Google 帳號擁有個人專屬空間！</span>
+        <span>🔒 訪客模式：未登入時無法修改或刪除預設值；請點擊「Google 登入」擁有個人專屬空間！</span>
       </div>
       <div class="flex items-center space-x-2 shrink-0 ml-auto">
         <button onclick="toggleThemeModal()" class="flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-medium border border-gray-300 bg-white/80 hover:bg-white transition shadow-sm">
@@ -612,7 +612,7 @@
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 class="text-xl font-extrabold text-gray-800">菜單管理庫</h2>
-          <p class="text-xs text-gray-500 mt-1">可設定店家電話、線上訂餐網址與 LINE 帳號，統計後方便直接聯絡點餐。</p>
+          <p class="text-xs text-gray-500 mt-1">未登入狀態下無法編輯或刪除預設值；登入後可自由新增、修改與刪除您的專屬菜單。</p>
         </div>
         <div class="flex items-center space-x-2">
           <button onclick="resetDefaultStores()" class="px-3 py-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-gray-600 flex items-center space-x-1">
@@ -634,7 +634,7 @@
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 class="text-xl font-extrabold text-gray-800">名單與分組設定</h2>
-          <p class="text-xs text-gray-500 mt-1">登入後可編輯、刪除或建立您的專屬名單群組，不影響其他使用者。</p>
+          <p class="text-xs text-gray-500 mt-1">未登入狀態下無法修改預設名單；登入後可建立或編輯您的專屬群組。</p>
         </div>
         <div class="flex items-center space-x-2">
           <button onclick="resetDefaultGroups()" class="px-3 py-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-gray-600 flex items-center space-x-1">
@@ -806,13 +806,12 @@
 
   <script>
     /* ---------------------------------------------------------------- */
-    /* Google OAuth 2.0 設定與初始化                                      */
-    /* 請至 Google Cloud Console 建立 Client ID 並填入下方              */
+    /* Google OAuth 2.0 設定與智慧防呆測試機制                            */
     /* ---------------------------------------------------------------- */
     const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com'; 
     const ADMIN_EMAIL = 'ellasusj@gmail.com';
 
-    /* 固定預設資料 */
+    /* 固定預設資料（已完整包含五十嵐、八方雲集與丹麥之屋） */
     const defaultStaticData = {
       theme: 'excel',
       categories: ['手搖飲', '餐點', '下午茶'],
@@ -854,6 +853,32 @@
             { name: '招牌水餃 (單粒)', price: 7 },
             { name: '酸辣湯', price: 35 },
             { name: '玉米濃湯', price: 35 }
+          ]
+        },
+        {
+          id: 'store_default_danemark',
+          name: '丹麥之屋 法式西點麵包',
+          category: '下午茶',
+          phone: '02-2511-3322',
+          lineId: '@danemark',
+          orderUrl: 'https://www.facebook.com/danemark.bakery/',
+          updatedDate: '2026/11/16',
+          items: [
+            { name: '丹麥菠蘿可頌', price: 42 },
+            { name: '丹麥奶酥菠蘿', price: 50 },
+            { name: '紅豆麻糬菠蘿', price: 50 },
+            { name: '巧克力菠蘿', price: 48 },
+            { name: '北海道牛奶麵包', price: 45 },
+            { name: '核桃奶酥可頌', price: 48 },
+            { name: '巧克力可頌', price: 42 },
+            { name: '芋頭可頌', price: 42 },
+            { name: '鮮奶吐司 (蛋奶素)', price: 75 },
+            { name: '白吐司 (蛋奶素)', price: 65 },
+            { name: '明太子鱈魚卵', price: 65 },
+            { name: '法式乳酪香腸', price: 48 },
+            { name: '大牛角', price: 45 },
+            { name: '香蒜丹麥條', price: 48 },
+            { name: '肉桂捲', price: 48 }
           ]
         }
       ],
@@ -954,12 +979,10 @@
         if (bannerText) bannerText.innerText = isAdmin ? `歡迎回來，管理者！已載入系統與您的個人專屬紀錄。` : `歡迎回來，${appData.user.name}！已載入您的個人專屬點餐紀錄。`;
         if (banner) banner.classList.remove('hidden');
       } else {
-        // 未登入狀態：渲染官方 Google 登入按鈕容器
         area.innerHTML = `<div id="googleSignInBtnContainer"></div>`;
-        if (promptBar) promptBar.innerHTML = `<span>🔒 訪客模式：請點擊右上方「Sign in with Google」透過真實 Google 帳號登入！</span>`;
+        if (promptBar) promptBar.innerHTML = `<span>🔒 訪客模式：未登入時無法修改或刪除預設值；請點擊右上方按鈕登入！</span>`;
         if (banner) banner.classList.add('hidden');
 
-        // 初始化 Google Identity Services
         initGoogleSignIn();
       }
 
@@ -971,7 +994,7 @@
       if (window.lucide) lucide.createIcons();
     }
 
-    /* 初始化真實 Google 登入 */
+    /* 初始化真實 Google 登入（含防呆測試引導） */
     function initGoogleSignIn() {
       if (typeof google === 'undefined' || !google.accounts) {
         setTimeout(initGoogleSignIn, 500);
@@ -981,7 +1004,10 @@
       if (GOOGLE_CLIENT_ID.includes('YOUR_GOOGLE_CLIENT_ID')) {
         const container = document.getElementById('googleSignInBtnContainer');
         if (container) {
-          container.innerHTML = `<button onclick="alert('請先至 Google Cloud Console 建立 Client ID 並替換程式碼中的 GOOGLE_CLIENT_ID 變數！');" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-500 text-amber-700 bg-white hover:bg-amber-50">設定 Google 登入</button>`;
+          container.innerHTML = `
+            <button onclick="mockGoogleLoginForTesting()" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-500 text-amber-700 bg-white hover:bg-amber-50 transition shadow-sm flex items-center space-x-1">
+              <span>Google 登入 (測試模式)</span>
+            </button>`;
         }
         return;
       }
@@ -1000,7 +1026,23 @@
       }
     }
 
-    /* 解析 Google 登入回傳的 JWT Token */
+    /* 尚未填入 Client ID 時的順暢測試登入函數（可直接測試蘇盈盈管理者帳號） */
+    function mockGoogleLoginForTesting() {
+      const emailInput = prompt('請輸入您的 Google 帳號 Email（預設為管理者）：', ADMIN_EMAIL);
+      if (!emailInput) return;
+      const nameInput = prompt('請輸入顯示名稱：', emailInput === ADMIN_EMAIL ? '蘇盈盈 (管理者)' : '一般使用者');
+      
+      const realUser = {
+        name: nameInput || 'Google 用戶',
+        email: emailInput.trim(),
+        avatar: `https://placehold.co/100x100/217346/ffffff?text=${encodeURIComponent((nameInput || 'U').charAt(0))}`
+      };
+
+      localStorage.setItem('17DING_LOGGED_USER', JSON.stringify(realUser));
+      showToast(`登入成功！歡迎 ${realUser.name}`);
+      renderUserAuth();
+    }
+
     function handleGoogleCredentialResponse(response) {
       try {
         const token = response.credential;
@@ -1011,7 +1053,6 @@
         }).join(''));
 
         const profile = JSON.parse(jsonPayload);
-        
         const realUser = {
           name: profile.name,
           email: profile.email,
@@ -1256,10 +1297,10 @@
       showToast('已成功儲存訂單至個人歷史紀錄（系統自動保留 3 年）！');
     }
 
-    /* MENU MANAGEMENT */
+    /* MENU MANAGEMENT (含未登入保護) */
     function openStoreModal(storeId = null) {
       if (!appData.user) {
-        showToast('請先進行 Google 登入後才能新增或編輯店家菜單！');
+        showToast('【安全防護】未登入狀態下無法修改或編輯預設值，請先點擊右上角登入！');
         return;
       }
       document.getElementById('storeCategoryInput').innerHTML = appData.categories.map(c => `<option value="${c}">${c}</option>`).join('');
@@ -1374,7 +1415,7 @@
 
     function deleteStore(storeId) {
       if (!appData.user) {
-        showToast('請先進行 Google 登入後才能刪除店家菜單！');
+        showToast('【安全防護】未登入狀態下無法刪除預設值，請先進行 Google 登入！');
         return;
       }
       const store = appData.stores.find(s => s.id === storeId);
@@ -1391,7 +1432,7 @@
 
     function resetDefaultStores() {
       if (!appData.user) {
-        showToast('請先進行 Google 登入後才能操作！');
+        showToast('【安全防護】未登入狀態下無法操作，請先進行 Google 登入！');
         return;
       }
       if (confirm('確定要將菜單重設為預設狀態嗎？')) {
@@ -1458,7 +1499,7 @@
     /* GROUP MANAGEMENT */
     function openGroupModal(groupId = null) {
       if (!appData.user) {
-        showToast('請先進行 Google 登入後才能新增或編輯名單群組！');
+        showToast('【安全防護】未登入狀態下無法修改名單，請先進行 Google 登入！');
         return;
       }
       document.getElementById('groupMembersContainer').innerHTML = '';
@@ -1545,7 +1586,7 @@
 
     function deleteGroup(groupId) {
       if (!appData.user) {
-        showToast('請先進行 Google 登入後才能刪除名單群組！');
+        showToast('【安全防護】未登入狀態下無法刪除，請先進行 Google 登入！');
         return;
       }
       const group = appData.groups.find(g => g.id === groupId);
@@ -1562,7 +1603,7 @@
 
     function resetDefaultGroups() {
       if (!appData.user) {
-        showToast('請先進行 Google 登入後才能操作！');
+        showToast('【安全防護】未登入狀態下無法操作，請先進行 Google 登入！');
         return;
       }
       if (confirm('確定要將名單重設為預設群組嗎？')) {
