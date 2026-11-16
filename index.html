@@ -12,7 +12,7 @@
       font-family: 'Inter', 'Noto Sans TC', sans-serif;
     }
 
-    /* 預設主題變數 (EXCEL 經典綠) */
+    /* 1. EXCEL風格：仿EXCEL工作表網格底圖 */
     .theme-excel {
       --bg-main: #f3f2f1;
       --bg-card: #ffffff;
@@ -25,7 +25,12 @@
       --primary-text: #ffffff;
       --accent-bg: #e1dfdd;
     }
-
+    body.theme-excel {
+      background-color: #f3f2f1 !important;
+      background-image: linear-gradient(to right, #e1dfdd 1px, transparent 1px), linear-gradient(to bottom, #e1dfdd 1px, transparent 1px) !important;
+      background-size: 32px 32px !important;
+      background-attachment: fixed !important;
+    }
     body.theme-excel header {
       background-color: #217346 !important;
       border-bottom: 1px solid #185c37 !important;
@@ -252,7 +257,7 @@
       color: #1d6fa5 !important;
     }
 
-    /* 珍珠奶茶風格 */
+    /* 2. 珍珠奶風格：大幅減少珍珠數量與密度，改為疏落幾顆珍珠點綴 */
     .theme-boba {
       --bg-main: #f3e3d0;
       --bg-card: #fffaf3;
@@ -267,9 +272,9 @@
     }
     body.theme-boba {
       background-color: #f3e3d0 !important;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cdefs%3E%3CradialGradient id='bobaGrad' cx='35%25' cy='35%25' r='65%25'%3E%3Cstop offset='0%25' stop-color='%2378472a'/%3E%3Cstop offset='45%25' stop-color='%233d1f0e'/%3E%3Cstop offset='100%25' stop-color='%23210e04'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg opacity='0.14'%3E%3Ccircle cx='30' cy='35' r='13' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='26' cy='30' rx='3.5' ry='2' transform='rotate(-30 26 30)' fill='%23ffffff' opacity='0.65'/%3E%3Ccircle cx='105' cy='25' r='11' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='101.5' cy='21' rx='3' ry='1.6' transform='rotate(-30 101.5 21)' fill='%23ffffff' opacity='0.65'/%3E%3Ccircle cx='70' cy='80' r='14' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='65.5' cy='75' rx='4' ry='2.2' transform='rotate(-30 65.5 75)' fill='%23ffffff' opacity='0.65'/%3E%3Ccircle cx='140' cy='95' r='12' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='136' cy='90.5' rx='3.2' ry='1.8' transform='rotate(-30 136 90.5)' fill='%23ffffff' opacity='0.65'/%3E%3Ccircle cx='28' cy='130' r='12.5' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='24' cy='125.5' rx='3.4' ry='1.9' transform='rotate(-30 24 125.5)' fill='%23ffffff' opacity='0.65'/%3E%3Ccircle cx='102' cy='142' r='13.5' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='97.5' cy='137' rx='3.8' ry='2' transform='rotate(-30 97.5 137)' fill='%23ffffff' opacity='0.65'/%3E%3C/g%3E%3C/svg%3E") !important;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Cdefs%3E%3CradialGradient id='bobaGrad' cx='35%25' cy='35%25' r='65%25'%3E%3Cstop offset='0%25' stop-color='%2378472a'/%3E%3Cstop offset='45%25' stop-color='%233d1f0e'/%3E%3Cstop offset='100%25' stop-color='%23210e04'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cg opacity='0.16'%3E%3Ccircle cx='45' cy='50' r='12' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='41' cy='45' rx='3.2' ry='1.8' transform='rotate(-30 41 45)' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='220' cy='75' r='14' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='215' cy='70' rx='3.8' ry='2' transform='rotate(-30 215 70)' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='130' cy='150' r='13' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='126' cy='145' rx='3.5' ry='1.9' transform='rotate(-30 126 145)' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='60' cy='230' r='15' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='55' cy='224' rx='4' ry='2.2' transform='rotate(-30 55 224)' fill='%23ffffff' opacity='0.7'/%3E%3Ccircle cx='230' cy='210' r='12.5' fill='url(%23bobaGrad)'/%3E%3Cellipse cx='226' cy='205' rx='3.4' ry='1.9' transform='rotate(-30 226 205)' fill='%23ffffff' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E") !important;
       background-repeat: repeat !important;
-      background-size: 160px 160px !important;
+      background-size: 280px 280px !important;
     }
     body.theme-boba header {
       background-color: rgba(230, 206, 179, 0.92) !important;
@@ -457,7 +462,7 @@
   <header class="sticky top-0 z-40 border-b shadow-sm backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 h-12 flex items-center justify-between">
       <div id="loginPromptBar" class="text-xs font-bold text-amber-100 flex items-center space-x-1">
-        <span>🔒 訪客模式：已內建五十嵐（含加料選項）、八方雲集、丹麥之屋，登入 Google 後可永久自訂！</span>
+        <span>🔒 訪客模式：預設內容固定不變；任何人登入 Google 後皆可享有個人的專屬菜單與名單紀錄！</span>
       </div>
       <div class="flex items-center space-x-2 shrink-0 ml-auto">
         <button onclick="toggleThemeModal()" class="flex items-center space-x-1 px-2.5 py-1 rounded-lg text-xs font-medium border border-gray-300 bg-white/80 hover:bg-white transition shadow-sm">
@@ -480,8 +485,8 @@
   <div id="loginBanner" class="hidden bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white px-4 py-3 shadow-md">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <div class="flex items-center space-x-2">
-        <span class="text-xl">🥟</span>
-        <span class="font-bold text-sm md:text-base">歡迎回來！17訂小助手說：「已成功讀取您的專屬雲端菜單與名單群組！」</span>
+        <span class="text-xl">✨</span>
+        <span id="loginBannerText" class="font-bold text-sm md:text-base">歡迎回來！已載入您的專屬雲端紀錄與三年歷史保留。</span>
       </div>
       <button onclick="dismissBanner()" class="text-white/80 hover:text-white p-1">
         <i data-lucide="x" class="w-5 h-5"></i>
@@ -595,15 +600,21 @@
 
     <!-- VIEW: MENU MANAGEMENT -->
     <section id="view-menu" class="tab-view hidden space-y-6">
-      <div class="flex items-center justify-between">
+      <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 class="text-xl font-extrabold text-gray-800">菜單管理庫</h2>
-          <p class="text-xs text-gray-500 mt-1">已完整載入五十嵐、八方雲集、丹麥之屋；登入 Google 後可新增與儲存專屬店家菜單。</p>
+          <p class="text-xs text-gray-500 mt-1">訪客模式展示固定預設菜單；登入後可自由新增、修改或刪除，所有異動僅保留於您的個人帳號中。</p>
         </div>
-        <button id="addStoreBtn" onclick="openAddStoreModal()" class="btn-primary px-4 py-2 rounded-xl text-sm font-bold flex items-center space-x-2 shadow-sm">
-          <i data-lucide="plus" class="w-4 h-4"></i>
-          <span>新增店家菜單</span>
-        </button>
+        <div class="flex items-center space-x-2">
+          <button onclick="resetDefaultStores()" class="px-3 py-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-gray-600 flex items-center space-x-1">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            <span>重設為預設菜單</span>
+          </button>
+          <button onclick="openStoreModal()" class="btn-primary px-4 py-2 rounded-xl text-sm font-bold flex items-center space-x-2 shadow-sm">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>新增店家菜單</span>
+          </button>
+        </div>
       </div>
       <div id="storeListGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       </div>
@@ -611,15 +622,21 @@
 
     <!-- VIEW: GROUP MANAGEMENT -->
     <section id="view-group" class="tab-view hidden space-y-6">
-      <div class="flex items-center justify-between">
+      <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 class="text-xl font-extrabold text-gray-800">名單與分組設定</h2>
-          <p class="text-xs text-gray-500 mt-1">登入 Google 後可管理專屬分機與點餐群組。</p>
+          <p class="text-xs text-gray-500 mt-1">登入後可編輯、刪除或建立您的專屬名單群組，不影響其他使用者。</p>
         </div>
-        <button id="addGroupBtn" onclick="openAddGroupModal()" class="btn-primary px-4 py-2 rounded-xl text-sm font-bold flex items-center space-x-2 shadow-sm">
-          <i data-lucide="plus" class="w-4 h-4"></i>
-          <span>新增名單群組</span>
-        </button>
+        <div class="flex items-center space-x-2">
+          <button onclick="resetDefaultGroups()" class="px-3 py-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 text-xs font-bold text-gray-600 flex items-center space-x-1">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            <span>重設為預設名單</span>
+          </button>
+          <button onclick="openGroupModal()" class="btn-primary px-4 py-2 rounded-xl text-sm font-bold flex items-center space-x-2 shadow-sm">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>新增名單群組</span>
+          </button>
+        </div>
       </div>
       <div id="groupListGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
       </div>
@@ -630,7 +647,7 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="text-xl font-extrabold text-gray-800">歷史訂單紀錄</h2>
-          <p class="text-xs text-gray-500 mt-1">查看過去的訂餐時間、店家明細與團購對帳總金額。</p>
+          <p class="text-xs text-gray-500 mt-1">系統自動保留最近 3 年內的個人歷史訂單，超過 3 年將自動刪除以維持高效能。</p>
         </div>
       </div>
       <div id="historyList" class="space-y-4">
@@ -686,32 +703,35 @@
   </div>
 
   <!-- MODAL: ADD / EDIT STORE -->
-  <div id="addStoreModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+  <div id="storeModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[90vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-3">
-        <h3 class="font-bold text-gray-800 text-lg" id="addStoreModalTitle">新增店家菜單</h3>
-        <button onclick="closeAddStoreModal()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <h3 class="font-bold text-gray-800 text-lg" id="storeModalTitle">新增店家菜單</h3>
+        <button onclick="closeStoreModal()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-      <div class="space-y-4 text-sm">
+      <div class="space-y-4 text-sm overflow-y-auto flex-1 pr-1">
+        <input type="hidden" id="editStoreIdInput" value="">
         <div>
           <label class="block font-bold text-gray-700 mb-1">店家名稱</label>
-          <input type="text" id="storeNameInput" placeholder="例如：手搖飲專賣" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none">
+          <input type="text" id="storeNameInput" placeholder="例如：五十嵐 / 健康餐盒專賣" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none">
         </div>
         <div>
           <label class="block font-bold text-gray-700 mb-1">菜單分類</label>
           <select id="storeCategoryInput" class="w-full px-3 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-amber-500 focus:outline-none"></select>
         </div>
         <div>
-          <label class="block font-bold text-gray-700 mb-1">菜單品項與金額清單</label>
-          <div id="storeItemsContainer" class="space-y-2 max-h-56 overflow-y-auto p-1"></div>
-          <button onclick="addStoreItemRow()" class="mt-2 text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center space-x-1">
-            <i data-lucide="plus-circle" class="w-4 h-4"></i>
-            <span>新增品項列</span>
-          </button>
+          <div class="flex items-center justify-between mb-1">
+            <label class="font-bold text-gray-700">菜單品項與金額清單 (<span id="storeItemCountBadge">0</span> 項)</label>
+            <button onclick="addStoreItemRow()" type="button" class="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center space-x-1">
+              <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+              <span>新增一列品項</span>
+            </button>
+          </div>
+          <div id="storeItemsContainer" class="space-y-2 max-h-60 overflow-y-auto p-1 border rounded-xl bg-gray-50/50"></div>
         </div>
       </div>
-      <div class="flex justify-end space-x-2 pt-4 border-t">
-        <button onclick="closeAddStoreModal()" class="px-4 py-2 border rounded-lg text-gray-600 text-sm font-bold">取消</button>
+      <div class="flex justify-end space-x-2 pt-3 border-t">
+        <button onclick="closeStoreModal()" class="px-4 py-2 border rounded-lg text-gray-600 text-sm font-bold">取消</button>
         <button onclick="saveStoreModal()" class="px-4 py-2 btn-primary rounded-lg text-sm font-bold">儲存店家菜單</button>
       </div>
     </div>
@@ -728,6 +748,7 @@
         <button onclick="closeGroupModal()" class="text-gray-400 hover:text-gray-600"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <div class="space-y-4 text-sm overflow-y-auto flex-1 pr-1">
+        <input type="hidden" id="editGroupIdInput" value="">
         <div>
           <label class="block font-bold text-gray-700 mb-1">群組名稱</label>
           <input type="text" id="groupNameInput" placeholder="例如：研發部點餐群組" class="w-full px-3 py-2 border rounded-lg focus:outline-none">
@@ -735,9 +756,12 @@
         <div>
           <div class="flex items-center justify-between mb-1.5">
             <label class="font-bold text-gray-700">成員明細清單 (<span id="groupMemberCountBadge">0</span> 人)</label>
-            <button onclick="addGroupMemberRow()" type="button" class="text-xs font-bold text-amber-700 hover:text-amber-800">新增一位成員</button>
+            <button onclick="addGroupMemberRow()" type="button" class="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center space-x-1">
+              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+              <span>新增一位成員</span>
+            </button>
           </div>
-          <div id="groupMembersContainer" class="space-y-2 max-h-56 overflow-y-auto p-1 border rounded-xl bg-gray-50/50"></div>
+          <div id="groupMembersContainer" class="space-y-2 max-h-60 overflow-y-auto p-1 border rounded-xl bg-gray-50/50"></div>
         </div>
       </div>
       <div class="flex justify-end space-x-2 pt-3 border-t">
@@ -756,8 +780,11 @@
   </div>
 
   <script>
-    /* 完整預設資料：五十嵐內建加料選項、八方雲集、丹麥之屋 */
-    const guestData = {
+    /* 管理者帳號設定 */
+    const ADMIN_EMAIL = 'ellasusj@gmail.com';
+
+    /* 固定預設資料（訪客或新用戶的標準內容） */
+    const defaultStaticData = {
       theme: 'excel',
       categories: ['手搖飲', '餐點', '下午茶'],
       stores: [
@@ -924,6 +951,7 @@
       history: []
     };
 
+    /* 載入資料邏輯：動態辨識目前登入者，載入其專屬紀錄（自動過濾3年內的歷史紀錄） */
     function loadActiveData() {
       const savedUserJson = localStorage.getItem('17DING_LOGGED_USER');
       if (savedUserJson) {
@@ -931,28 +959,40 @@
           appData.user = JSON.parse(savedUserJson);
           const userKey = '17DING_USER_DATA_' + appData.user.email;
           const userSpecificData = localStorage.getItem(userKey);
+          
           if (userSpecificData) {
             const parsed = JSON.parse(userSpecificData);
-            appData.stores = parsed.stores && parsed.stores.length > 0 ? parsed.stores : JSON.parse(JSON.stringify(guestData.stores));
-            appData.groups = parsed.groups && parsed.groups.length > 0 ? parsed.groups : JSON.parse(JSON.stringify(guestData.groups));
-            appData.history = parsed.history || [];
+            appData.stores = Array.isArray(parsed.stores) ? parsed.stores : JSON.parse(JSON.stringify(defaultStaticData.stores));
+            appData.groups = Array.isArray(parsed.groups) ? parsed.groups : JSON.parse(JSON.stringify(defaultStaticData.groups));
             appData.theme = parsed.theme || 'excel';
+            
+            // 歷史紀錄自動過濾：只保留 3 年內的紀錄
+            const threeYearsAgoMs = Date.now() - (3 * 365 * 24 * 60 * 60 * 1000);
+            appData.history = (parsed.history || []).filter(h => {
+              const hTime = h.timestamp || new Date(h.date.replace(/\//g, '-')).getTime();
+              return hTime >= threeYearsAgoMs;
+            });
           } else {
-            appData.stores = JSON.parse(JSON.stringify(guestData.stores));
-            appData.groups = JSON.parse(JSON.stringify(guestData.groups));
+            // 該用戶首次登入，配置一份預設資料供其個人化操作
+            appData.stores = JSON.parse(JSON.stringify(defaultStaticData.stores));
+            appData.groups = JSON.parse(JSON.stringify(defaultStaticData.groups));
             appData.history = [];
+            appData.theme = 'excel';
           }
         } catch(e) {
           appData.user = null;
         }
       } else {
+        // 訪客模式：使用標準預設資料
         appData.user = null;
-        appData.stores = JSON.parse(JSON.stringify(guestData.stores));
-        appData.groups = JSON.parse(JSON.stringify(guestData.groups));
+        appData.stores = JSON.parse(JSON.stringify(defaultStaticData.stores));
+        appData.groups = JSON.parse(JSON.stringify(defaultStaticData.groups));
         appData.history = [];
+        appData.theme = 'excel';
       }
     }
 
+    /* 永久儲存該登入用戶的個人專屬紀錄 */
     function persistUserData() {
       if (appData.user && appData.user.email) {
         const userKey = '17DING_USER_DATA_' + appData.user.email;
@@ -970,26 +1010,31 @@
       const area = document.getElementById('userAuthArea');
       const promptBar = document.getElementById('loginPromptBar');
       const banner = document.getElementById('loginBanner');
+      const bannerText = document.getElementById('loginBannerText');
 
       if (!area) return;
 
       if (appData.user) {
+        const isAdmin = (appData.user.email === ADMIN_EMAIL);
+        const roleBadge = isAdmin ? `<span class="bg-amber-700 text-white text-[10px] px-1.5 py-0.5 rounded ml-1 font-black">管理者</span>` : `<span class="bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded ml-1">會員</span>`;
+        
         area.innerHTML = `
           <div class="flex items-center space-x-2">
             <img src="${appData.user.avatar}" alt="User" class="w-7 h-7 rounded-full border border-amber-300">
-            <span class="hidden md:inline text-xs font-bold">${appData.user.name}</span>
+            <span class="hidden md:inline text-xs font-bold">${appData.user.name} ${roleBadge}</span>
             <button onclick="logout()" class="px-2 py-1 text-xs border rounded-lg hover:bg-gray-100 bg-white text-gray-800">登出</button>
           </div>
         `;
-        if (promptBar) promptBar.innerHTML = `<span>✨ 已登入 Google 帳號：${appData.user.email}（您的菜單與加料選項已永久儲存）</span>`;
+        if (promptBar) promptBar.innerHTML = `<span>✨ 已登入 (${appData.user.email}) ${isAdmin ? '【管理者模式】' : '【個人專屬空間】'}：所有菜單與名單異動已安全儲存。</span>`;
+        if (bannerText) bannerText.innerText = isAdmin ? `歡迎回來，管理者！已載入系統與您的個人專屬紀錄（三年歷史自動保留）。` : `歡迎回來，${appData.user.name}！已載入您的個人專屬點餐與菜單紀錄。`;
         if (banner) banner.classList.remove('hidden');
       } else {
         area.innerHTML = `
-          <button onclick="loginWithGoogle()" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-500 text-amber-700 bg-white hover:bg-amber-50 transition shadow-sm">
+          <button onclick="openLoginModal()" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-500 text-amber-700 bg-white hover:bg-amber-50 transition shadow-sm">
             Google 登入
           </button>
         `;
-        if (promptBar) promptBar.innerHTML = `<span>🔒 訪客模式：已內建五十嵐加料選項，點擊「Google 登入」可永久儲存！</span>`;
+        if (promptBar) promptBar.innerHTML = `<span>🔒 訪客模式：預設內容固定不變；任何人皆可點擊「Google 登入」擁有自己的專屬空間！</span>`;
         if (banner) banner.classList.add('hidden');
       }
 
@@ -998,22 +1043,28 @@
       renderStoresGrid();
       renderGroupsGrid();
       renderHistoryList();
+      if (window.lucide) lucide.createIcons();
     }
 
-    function loginWithGoogle() {
+    /* 模擬多用戶 Google 登入視窗（可輸入任意信箱測試或直接以管理者登入） */
+    function openLoginModal() {
+      const emailInput = prompt('請輸入您的 Google 帳號 Email（測試多用戶功能）：', 'user01@gmail.com');
+      if (!emailInput) return;
+      const nameInput = prompt('請輸入您的顯示名稱：', emailInput === ADMIN_EMAIL ? '蘇盈盈 (管理者)' : '一般使用者');
+      
       const mockUser = {
-        name: '蘇盈盈 (Ying)',
-        email: 'ellasu1987@gmail.com',
-        avatar: 'https://placehold.co/100x100/217346/ffffff?text=Ying'
+        name: nameInput || 'Google 用戶',
+        email: emailInput.trim(),
+        avatar: `https://placehold.co/100x100/217346/ffffff?text=${encodeURIComponent((nameInput || 'U').charAt(0))}`
       };
       localStorage.setItem('17DING_LOGGED_USER', JSON.stringify(mockUser));
-      showToast('Google 登入成功！已為您載入五十嵐加料選項與最新預設菜單。');
+      showToast(`登入成功！歡迎 ${mockUser.name}`);
       renderUserAuth();
     }
 
     function logout() {
       localStorage.removeItem('17DING_LOGGED_USER');
-      showToast('已登出 Google 帳號，切換回訪客檢視。');
+      showToast('已登出，切換回訪客預設檢視。');
       renderUserAuth();
     }
 
@@ -1052,15 +1103,24 @@
         activeBtn.classList.remove('border-transparent', 'text-gray-500', 'font-medium');
         activeBtn.classList.add('border-amber-600', 'text-amber-800', 'font-bold');
       }
+      if (window.lucide) lucide.createIcons();
     }
 
     /* ORDER TAB LOGIC */
     function populateOrderDropdowns() {
       const storeSelect = document.getElementById('orderStoreSelect');
-      storeSelect.innerHTML = appData.stores.map(s => `<option value="${s.id}">【${s.category}】${s.name} (${s.items.length}品項)</option>`).join('');
+      if (appData.stores.length === 0) {
+        storeSelect.innerHTML = `<option value="">-- 尚無店家菜單，請至菜單管理新增 --</option>`;
+      } else {
+        storeSelect.innerHTML = appData.stores.map(s => `<option value="${s.id}">【${s.category}】${s.name} (${s.items.length}品項)</option>`).join('');
+      }
 
       const groupSelect = document.getElementById('orderGroupSelect');
-      groupSelect.innerHTML = appData.groups.map(g => `<option value="${g.id}">${g.name}</option>`).join('');
+      if (appData.groups.length === 0) {
+        groupSelect.innerHTML = `<option value="">-- 尚無名單群組，請至名單分組新增 --</option>`;
+      } else {
+        groupSelect.innerHTML = appData.groups.map(g => `<option value="${g.id}">${g.name} (${g.members.length}人)</option>`).join('');
+      }
 
       onOrderStoreChange();
     }
@@ -1070,6 +1130,8 @@
       const store = appData.stores.find(s => s.id === storeId);
       if (store) {
         document.getElementById('storeUpdatedDateText').innerText = store.updatedDate || '無紀錄';
+      } else {
+        document.getElementById('storeUpdatedDateText').innerText = '-';
       }
       renderOrderTable();
     }
@@ -1084,12 +1146,12 @@
       tbody.innerHTML = '';
 
       if (!store || !group || group.members.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-400">尚無名單或菜單資料</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-400">尚無名單或菜單資料，請先至上方分頁建立</td></tr>`;
+        calculateOrderTotals();
         return;
       }
 
-      const is50Lan = store.name.includes('五十嵐');
-      // 根據是否為五十嵐動態提供加料選項
+      const is50Lan = store.name.includes('五十嵐') || store.name.includes('50嵐');
       const addonSelectHtml = is50Lan ? `
         <select onchange="calculateOrderTotals()" class="w-full px-2 py-1.5 border rounded-lg bg-white text-xs addon-select">
           <option value="0" data-price="0">無加料 (+0)</option>
@@ -1138,7 +1200,10 @@
       let skippedCount = 0;
 
       document.querySelectorAll('#orderTableBody tr').forEach(tr => {
-        const isSkipped = tr.querySelector('.skip-checkbox').checked;
+        const skipCb = tr.querySelector('.skip-checkbox');
+        if (!skipCb) return;
+
+        const isSkipped = skipCb.checked;
         const itemSelect = tr.querySelector('.item-select');
         const addonSelect = tr.querySelector('.addon-select');
         const rowTotalEl = tr.querySelector('.row-total');
@@ -1178,12 +1243,18 @@
     }
 
     function saveCurrentOrderToHistory() {
+      if (!appData.user) {
+        showToast('請先進行「Google 登入」後才能儲存歷史訂單！');
+        return;
+      }
       const storeId = document.getElementById('orderStoreSelect').value;
       const store = appData.stores.find(s => s.id === storeId);
       if (!store) return;
 
+      const now = Date.now();
       appData.history.unshift({
-        id: 'hist_' + Date.now(),
+        id: 'hist_' + now,
+        timestamp: now,
         date: new Date().toLocaleDateString('zh-TW'),
         storeName: store.name,
         totalAmount: document.getElementById('grandTotalAmount').innerText,
@@ -1191,39 +1262,66 @@
       });
       persistUserData();
       renderHistoryList();
-      showToast('已成功儲存訂單至歷史紀錄！');
+      showToast('已成功儲存訂單至個人歷史紀錄（系統自動保留 3 年）！');
     }
 
     /* MENU MANAGEMENT */
-    function openAddStoreModal() {
+    function openStoreModal(storeId = null) {
       if (!appData.user) {
-        showToast('請先進行「Google 登入」後才能新增店家菜單！');
+        showToast('請先進行「Google 登入」後才能新增或編輯店家菜單！');
         return;
       }
       document.getElementById('storeCategoryInput').innerHTML = appData.categories.map(c => `<option value="${c}">${c}</option>`).join('');
-      document.getElementById('storeNameInput').value = '';
       document.getElementById('storeItemsContainer').innerHTML = '';
-      addStoreItemRow();
-      document.getElementById('addStoreModal').classList.remove('hidden');
+
+      if (storeId) {
+        const store = appData.stores.find(s => s.id === storeId);
+        if (!store) return;
+        document.getElementById('storeModalTitle').innerText = '編輯店家菜單';
+        document.getElementById('editStoreIdInput').value = store.id;
+        document.getElementById('storeNameInput').value = store.name;
+        document.getElementById('storeCategoryInput').value = store.category;
+        if (store.items && store.items.length > 0) {
+          store.items.forEach(it => addStoreItemRow(it.name, it.price));
+        } else {
+          addStoreItemRow();
+        }
+      } else {
+        document.getElementById('storeModalTitle').innerText = '新增店家菜單';
+        document.getElementById('editStoreIdInput').value = '';
+        document.getElementById('storeNameInput').value = '';
+        addStoreItemRow();
+      }
+      updateStoreItemCountBadge();
+      document.getElementById('storeModal').classList.remove('hidden');
+      if (window.lucide) lucide.createIcons();
     }
 
-    function closeAddStoreModal() {
-      document.getElementById('addStoreModal').classList.add('hidden');
+    function closeStoreModal() {
+      document.getElementById('storeModal').classList.add('hidden');
     }
 
     function addStoreItemRow(name = '', price = '') {
       const container = document.getElementById('storeItemsContainer');
       const div = document.createElement('div');
-      div.className = 'flex items-center space-x-2 item-row';
+      div.className = 'flex items-center space-x-2 item-row bg-white p-1.5 rounded-lg border';
       div.innerHTML = `
-        <input type="text" placeholder="品項名稱" value="${name}" class="flex-1 px-2 py-1 border rounded text-xs item-name">
-        <input type="number" step="0.5" placeholder="金額" value="${price}" class="w-20 px-2 py-1 border rounded text-xs item-price">
-        <button onclick="this.parentElement.remove()" class="text-red-500 text-xs">刪除</button>
+        <input type="text" placeholder="品項名稱" value="${name}" class="flex-1 px-2.5 py-1 border rounded text-xs item-name">
+        <input type="number" step="0.5" placeholder="金額" value="${price}" class="w-24 px-2.5 py-1 border rounded text-xs item-price">
+        <button type="button" onclick="this.closest('.item-row').remove(); updateStoreItemCountBadge();" class="text-red-500 hover:text-red-700 px-1.5 py-1 text-xs font-bold">刪除</button>
       `;
       container.appendChild(div);
+      updateStoreItemCountBadge();
+    }
+
+    function updateStoreItemCountBadge() {
+      const count = document.querySelectorAll('#storeItemsContainer .item-row').length;
+      const badge = document.getElementById('storeItemCountBadge');
+      if (badge) badge.innerText = count;
     }
 
     function saveStoreModal() {
+      const editId = document.getElementById('editStoreIdInput').value;
       const name = document.getElementById('storeNameInput').value.trim();
       const category = document.getElementById('storeCategoryInput').value;
       if (!name) { showToast('請輸入店家名稱'); return; }
@@ -1235,44 +1333,132 @@
         if (itemName && !isNaN(itemPrice)) items.push({ name: itemName, price: itemPrice });
       });
 
-      appData.stores.push({
-        id: 'store_' + Date.now(),
-        name: name,
-        category: category,
-        updatedDate: new Date().toLocaleDateString('zh-TW'),
-        items: items
-      });
+      const todayStr = new Date().toLocaleDateString('zh-TW');
+
+      if (editId) {
+        const idx = appData.stores.findIndex(s => s.id === editId);
+        if (idx !== -1) {
+          appData.stores[idx] = {
+            ...appData.stores[idx],
+            name: name,
+            category: category,
+            updatedDate: todayStr,
+            items: items
+          };
+          showToast('店家菜單已更新並永久保留於您的帳號！');
+        }
+      } else {
+        appData.stores.push({
+          id: 'store_' + Date.now(),
+          name: name,
+          category: category,
+          updatedDate: todayStr,
+          items: items
+        });
+        showToast('新店家菜單已成功新增並永久保留！');
+      }
 
       persistUserData();
       renderStoresGrid();
       populateOrderDropdowns();
-      closeAddStoreModal();
-      showToast('新店家菜單已成功儲存至您的帳號！');
+      closeStoreModal();
+    }
+
+    function deleteStore(storeId) {
+      if (!appData.user) {
+        showToast('請先進行「Google 登入」後才能刪除店家菜單！');
+        return;
+      }
+      const store = appData.stores.find(s => s.id === storeId);
+      if (!store) return;
+
+      if (confirm(`確定要刪除「${store.name}」的菜單嗎？`)) {
+        appData.stores = appData.stores.filter(s => s.id !== storeId);
+        persistUserData();
+        renderStoresGrid();
+        populateOrderDropdowns();
+        showToast(`已刪除「${store.name}」菜單。`);
+      }
+    }
+
+    function resetDefaultStores() {
+      if (!appData.user) {
+        showToast('請先進行「Google 登入」後才能操作！');
+        return;
+      }
+      if (confirm('確定要將菜單重設為預設狀態嗎？')) {
+        appData.stores = JSON.parse(JSON.stringify(defaultStaticData.stores));
+        persistUserData();
+        renderStoresGrid();
+        populateOrderDropdowns();
+        showToast('已重設為預設菜單！');
+      }
     }
 
     function renderStoresGrid() {
       const grid = document.getElementById('storeListGrid');
+      if (appData.stores.length === 0) {
+        grid.innerHTML = `<div class="col-span-full p-8 bg-white rounded-2xl border text-center text-gray-400 text-sm">目前沒有任何菜單，請點擊右上角「新增店家菜單」或「重設為預設菜單」。</div>`;
+        return;
+      }
       grid.innerHTML = appData.stores.map(s => `
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-3">
-          <div>
-            <span class="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold">${s.category}</span>
-            <h3 class="text-lg font-bold text-gray-800 mt-1">${s.name}</h3>
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold">${s.category}</span>
+                <h3 class="text-lg font-bold text-gray-800 mt-1">${s.name}</h3>
+              </div>
+              <div class="flex items-center space-x-1 shrink-0">
+                <button onclick="openStoreModal('${s.id}')" class="px-2.5 py-1 rounded-lg border border-gray-300 bg-gray-50 hover:bg-amber-50 hover:border-amber-400 text-xs font-bold text-gray-700 flex items-center space-x-1">
+                  <i data-lucide="edit-2" class="w-3 h-3"></i>
+                  <span>編輯</span>
+                </button>
+                <button onclick="deleteStore('${s.id}')" class="px-2.5 py-1 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-xs font-bold text-red-600 flex items-center space-x-1">
+                  <i data-lucide="trash-2" class="w-3 h-3"></i>
+                  <span>刪除</span>
+                </button>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500">共 ${s.items.length} 個品項 · 更新於 ${s.updatedDate || '-'}</div>
+            <div class="max-h-36 overflow-y-auto text-xs border-t pt-2 space-y-1.5 text-gray-600 pr-1">
+              ${s.items.slice(0, 8).map(i => `<div class="flex justify-between"><span>${i.name}</span><span class="font-bold text-gray-800">$${i.price}</span></div>`).join('')}
+              ${s.items.length > 8 ? `<div class="text-center text-gray-400 pt-1">...點擊「編輯」可查看與修改全部 ${s.items.length} 項</div>` : ''}
+            </div>
           </div>
-          <div class="text-xs text-gray-500">已完整建檔 ${s.items.length} 個品項</div>
         </div>
       `).join('');
+      if (window.lucide) lucide.createIcons();
     }
 
     /* GROUP MANAGEMENT */
-    function openAddGroupModal() {
+    function openGroupModal(groupId = null) {
       if (!appData.user) {
-        showToast('請先進行「Google 登入」後才能新增名單群組！');
+        showToast('請先進行「Google 登入」後才能新增或編輯名單群組！');
         return;
       }
-      document.getElementById('groupNameInput').value = '';
       document.getElementById('groupMembersContainer').innerHTML = '';
-      addGroupMemberRow();
+
+      if (groupId) {
+        const group = appData.groups.find(g => g.id === groupId);
+        if (!group) return;
+        document.getElementById('groupModalTitle').innerHTML = `<i data-lucide="users" class="w-5 h-5 text-amber-600"></i><span>編輯名單群組</span>`;
+        document.getElementById('editGroupIdInput').value = group.id;
+        document.getElementById('groupNameInput').value = group.name;
+        if (group.members && group.members.length > 0) {
+          group.members.forEach(m => addGroupMemberRow(m.label));
+        } else {
+          addGroupMemberRow();
+        }
+      } else {
+        document.getElementById('groupModalTitle').innerHTML = `<i data-lucide="users" class="w-5 h-5 text-amber-600"></i><span>新增名單群組</span>`;
+        document.getElementById('editGroupIdInput').value = '';
+        document.getElementById('groupNameInput').value = '';
+        addGroupMemberRow();
+      }
+      updateGroupMemberCountBadge();
       document.getElementById('groupModal').classList.remove('hidden');
+      if (window.lucide) lucide.createIcons();
     }
 
     function closeGroupModal() {
@@ -1285,55 +1471,128 @@
       div.className = 'flex items-center space-x-2 member-row bg-white p-1.5 rounded-lg border';
       div.innerHTML = `
         <input type="text" placeholder="分機或姓名 (例: 101 王小明)" value="${label}" class="flex-1 px-2.5 py-1 border rounded text-xs member-label">
-        <button type="button" onclick="this.closest('.member-row').remove()" class="text-red-500 text-xs">刪除</button>
+        <button type="button" onclick="this.closest('.member-row').remove(); updateGroupMemberCountBadge();" class="text-red-500 hover:text-red-700 px-1.5 py-1 text-xs font-bold">刪除</button>
       `;
       container.appendChild(div);
+      updateGroupMemberCountBadge();
+    }
+
+    function updateGroupMemberCountBadge() {
+      const count = document.querySelectorAll('#groupMembersContainer .member-row').length;
+      const badge = document.getElementById('groupMemberCountBadge');
+      if (badge) badge.innerText = count;
     }
 
     function saveGroupModal() {
+      const editId = document.getElementById('editGroupIdInput').value;
       const groupName = document.getElementById('groupNameInput').value.trim();
       if (!groupName) { showToast('請輸入群組名稱'); return; }
 
       const members = [];
       document.querySelectorAll('#groupMembersContainer .member-row').forEach((row, idx) => {
         const label = row.querySelector('.member-label').value.trim();
-        if (label) members.push({ id: 'm_' + idx, label: label });
+        if (label) members.push({ id: 'm_' + Date.now() + '_' + idx, label: label });
       });
 
-      appData.groups.push({
-        id: 'group_' + Date.now(),
-        name: groupName,
-        members: members
-      });
+      if (editId) {
+        const idx = appData.groups.findIndex(g => g.id === editId);
+        if (idx !== -1) {
+          appData.groups[idx] = {
+            ...appData.groups[idx],
+            name: groupName,
+            members: members
+          };
+          showToast('名單群組已更新並永久保留！');
+        }
+      } else {
+        appData.groups.push({
+          id: 'group_' + Date.now(),
+          name: groupName,
+          members: members
+        });
+        showToast('新名單群組已成功新增並永久保留！');
+      }
 
       persistUserData();
       renderGroupsGrid();
       populateOrderDropdowns();
       closeGroupModal();
-      showToast('新名單群組已成功儲存至您的帳號！');
+    }
+
+    function deleteGroup(groupId) {
+      if (!appData.user) {
+        showToast('請先進行「Google 登入」後才能刪除名單群組！');
+        return;
+      }
+      const group = appData.groups.find(g => g.id === groupId);
+      if (!group) return;
+
+      if (confirm(`確定要刪除「${group.name}」名單群組嗎？`)) {
+        appData.groups = appData.groups.filter(g => g.id !== groupId);
+        persistUserData();
+        renderGroupsGrid();
+        populateOrderDropdowns();
+        showToast(`已刪除「${group.name}」群組。`);
+      }
+    }
+
+    function resetDefaultGroups() {
+      if (!appData.user) {
+        showToast('請先進行「Google 登入」後才能操作！');
+        return;
+      }
+      if (confirm('確定要將名單重設為預設群組嗎？')) {
+        appData.groups = JSON.parse(JSON.stringify(defaultStaticData.groups));
+        persistUserData();
+        renderGroupsGrid();
+        populateOrderDropdowns();
+        showToast('已重設為預設名單群組！');
+      }
     }
 
     function renderGroupsGrid() {
       const grid = document.getElementById('groupListGrid');
+      if (appData.groups.length === 0) {
+        grid.innerHTML = `<div class="col-span-full p-8 bg-white rounded-2xl border text-center text-gray-400 text-sm">目前沒有任何名單群組，請點擊右上角「新增名單群組」或「重設為預設名單」。</div>`;
+        return;
+      }
       grid.innerHTML = appData.groups.map(g => `
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-2">
-          <h3 class="text-lg font-bold text-gray-800">${g.name}</h3>
-          <p class="text-xs text-gray-500">共 ${g.members.length} 位成員</p>
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-200 space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <h3 class="text-lg font-bold text-gray-800">${g.name}</h3>
+              <p class="text-xs text-gray-500 mt-0.5">共 ${g.members.length} 位成員</p>
+            </div>
+            <div class="flex items-center space-x-1 shrink-0">
+              <button onclick="openGroupModal('${g.id}')" class="px-2.5 py-1 rounded-lg border border-gray-300 bg-gray-50 hover:bg-amber-50 hover:border-amber-400 text-xs font-bold text-gray-700 flex items-center space-x-1">
+                <i data-lucide="edit-2" class="w-3 h-3"></i>
+                <span>編輯</span>
+              </button>
+              <button onclick="deleteGroup('${g.id}')" class="px-2.5 py-1 rounded-lg border border-red-200 bg-red-50 hover:bg-red-100 text-xs font-bold text-red-600 flex items-center space-x-1">
+                <i data-lucide="trash-2" class="w-3 h-3"></i>
+                <span>刪除</span>
+              </button>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-1.5 pt-2 border-t">
+            ${g.members.map(m => `<span class="px-2.5 py-1 rounded-md bg-gray-100 text-gray-700 text-xs font-medium">${m.label}</span>`).join('')}
+          </div>
         </div>
       `).join('');
+      if (window.lucide) lucide.createIcons();
     }
 
     function renderHistoryList() {
       const list = document.getElementById('historyList');
       if (appData.history.length === 0) {
-        list.innerHTML = `<div class="p-6 bg-white rounded-2xl border text-center text-gray-400 text-sm">尚無歷史訂購紀錄</div>`;
+        list.innerHTML = `<div class="p-6 bg-white rounded-2xl border text-center text-gray-400 text-sm">尚無歷史訂購紀錄（超過三年的紀錄已自動刪除）</div>`;
         return;
       }
       list.innerHTML = appData.history.map(h => `
         <div class="bg-white p-4 rounded-xl border flex items-center justify-between">
           <div>
             <div class="font-bold text-gray-800">${h.date} - ${h.storeName}</div>
-            <div class="text-xs text-gray-500">訂購份數：${h.totalCount} 份</div>
+            <div class="text-xs text-gray-500">訂購份數：${h.totalCount} 份 (系統自動保留 3 年)</div>
           </div>
           <div class="text-lg font-black text-amber-900">${h.totalAmount}</div>
         </div>
