@@ -7,11 +7,15 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <!-- 引入 Tesseract.js 進行真實圖片 OCR 辨識 -->
+  <!-- 引入 Tesseract.js 真實圖片 OCR 辨識引擎 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
     body { font-family: 'Inter', 'Noto Sans TC', sans-serif; }
+
+    /* ==========================================================================
+       🎨 風格佈景主題設定 (Theme Skins)
+       ========================================================================== */
 
     /* 1. EXCEL 風格：試算表灰網格與經典微軟綠 */
     .theme-excel {
@@ -36,7 +40,7 @@
     .theme-white .bg-white { background-color: #ffffff !important; border-color: #e5e7eb !important; }
     .theme-white .btn-primary { background-color: #111827 !important; color: #ffffff !important; }
 
-    /* 3. 日極簡風格：日系無印灰白與細框 */
+    /* 3. 日極簡風格：日系無印灰白與細框線 */
     .theme-zen { background-color: #f4f6f8 !important; color: #1e293b !important; }
     .theme-zen header, .theme-zen nav { background-color: #ffffff !important; border-color: #cbd5e1 !important; }
     .theme-zen .bg-white { background-color: #ffffff !important; border: 1px solid #cbd5e1 !important; box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important; }
@@ -60,7 +64,7 @@
     .theme-snow .bg-white { background-color: rgba(255, 255, 255, 0.94) !important; border-color: #bae0f7 !important; }
     .theme-snow .btn-primary { background-color: #3898d4 !important; color: #ffffff !important; }
 
-    /* 6. 珍珠奶茶風格：奶茶底色與珍珠點綴 */
+    /* 6. 珍珠奶茶風格：奶茶底色與適量大小珍珠點綴 */
     .theme-boba {
       background-color: #f3e3d0 !important;
       background-image: radial-gradient(#5c3317 4px, transparent 4px), radial-gradient(#8c5830 2.5px, transparent 2.5px) !important;
@@ -93,6 +97,7 @@
 </head>
 <body id="appBody" class="theme-excel font-sans">
   
+  <!-- 頂端控制列 -->
   <header class="sticky top-0 z-40 border-b shadow-sm backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 h-12 flex items-center justify-between">
       <div id="loginPromptBar" class="text-xs font-bold opacity-90 flex items-center space-x-1">
@@ -107,12 +112,14 @@
     </div>
   </header>
 
+  <!-- LOGO 區域 -->
   <div class="max-w-7xl mx-auto px-4 pt-3 pb-1 flex justify-center">
     <div class="inline-flex flex-col items-center justify-center select-none">
       <img src="17order-logo.png" alt="17訂 官方 LOGO" class="h-24 sm:h-32 w-auto max-w-[280px] sm:max-w-[360px] object-contain drop-shadow-sm" onerror="this.src='https://placehold.co/360x140/transparent/3a2e25?text=17訂+一起訂一起點餐';">
     </div>
   </div>
 
+  <!-- 登入歡迎橫幅 -->
   <div id="loginBanner" class="hidden bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white px-4 py-3 shadow-md">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <div class="flex items-center space-x-2">
@@ -123,6 +130,7 @@
     </div>
   </div>
 
+  <!-- 導覽列 -->
   <nav class="border-b backdrop-blur-sm sticky top-12 z-30">
     <div class="max-w-7xl mx-auto px-4 flex space-x-2 sm:space-x-4 overflow-x-auto">
       <button id="tab-order" onclick="switchTab('order')" class="tab-btn px-4 py-3 font-bold text-sm border-b-2 border-amber-600 flex items-center space-x-2 whitespace-nowrap">
@@ -140,8 +148,10 @@
     </div>
   </nav>
 
+  <!-- 主要內容區 -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <!-- VIEW: ORDER -->
+    
+    <!-- VIEW: 1. 發起訂餐 -->
     <section id="view-order" class="tab-view space-y-6">
       <div class="bg-white p-6 rounded-2xl shadow-sm border space-y-4">
         <h3 class="text-lg font-bold">今天要訂什麼？</h3>
@@ -199,19 +209,19 @@
       </div>
     </section>
 
-    <!-- VIEW: MENU MANAGEMENT -->
+    <!-- VIEW: 2. 菜單管理 -->
     <section id="view-menu" class="tab-view hidden space-y-6">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 class="text-xl font-extrabold">菜單管理庫</h2>
-          <p class="text-xs opacity-75 mt-1" id="menuDescText">上傳菜單照片，系統將自動辨識圖中文字與金額建立品項。</p>
+          <p class="text-xs opacity-75 mt-1" id="menuDescText">上傳菜單照片，系統將透過 OCR 自動辨識圖中文字與金額建立品項。</p>
         </div>
         <div id="menuActionButtons" class="flex items-center space-x-2"></div>
       </div>
       <div id="storeListGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
-    <!-- VIEW: GROUP MANAGEMENT -->
+    <!-- VIEW: 3. 名單分組 -->
     <section id="view-group" class="tab-view hidden space-y-6">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
@@ -223,14 +233,14 @@
       <div id="groupListGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
     </section>
 
-    <!-- VIEW: HISTORY -->
+    <!-- VIEW: 4. 歷史紀錄 -->
     <section id="view-history" class="tab-view hidden space-y-6">
       <h2 class="text-xl font-extrabold">歷史訂單紀錄</h2>
       <div id="historyList" class="space-y-4"></div>
     </section>
   </main>
 
-  <!-- MODAL: THEME -->
+  <!-- MODAL: 風格選擇視窗 -->
   <div id="themeModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
       <div class="flex justify-between items-center border-b pb-3">
@@ -250,7 +260,7 @@
     </div>
   </div>
 
-  <!-- MODAL: STORE (真實 OCR 辨識引擎) -->
+  <!-- MODAL: 新增/編輯店家菜單 (含真實 OCR 辨識) -->
   <div id="storeModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[90vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-3">
@@ -262,13 +272,13 @@
         <div><label class="block font-bold mb-1">店家名稱</label><input type="text" id="storeNameInput" class="w-full px-3 py-2 border rounded-lg" placeholder="例: 健康低卡餐盒"></div>
         <div><label class="block font-bold mb-1">菜單分類</label><select id="storeCategoryInput" class="w-full px-3 py-2 border rounded-lg bg-white"></select></div>
         
-        <!-- 📸 真實 OCR 辨識區塊 -->
+        <!-- OCR 辨識上傳區塊 -->
         <div class="p-3.5 bg-amber-50 border border-amber-200 rounded-xl space-y-2">
           <label class="block font-bold text-amber-900 text-xs flex items-center space-x-1.5">
             <i data-lucide="scan-text" class="w-4 h-4 text-amber-600"></i>
             <span>上傳菜單照片 / 長條截圖（自動 OCR 辨識圖中品項與金額）</span>
           </label>
-          <p class="text-[11px] text-amber-800/80">上傳圖片後，系統會自動辨識圖中的品名與價格並填入下方清單。</p>
+          <p class="text-[11px] text-amber-800/80">上傳圖片後，系統將自動辨識圖中的品名與價格並填入下方清單。</p>
           <input type="file" id="menuOcrFileInput" accept="image/*" onchange="handleMenuOcrUpload(event)" class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-amber-600 file:text-white hover:file:bg-amber-700 cursor-pointer">
           
           <div id="ocrProgressContainer" class="hidden space-y-1.5 pt-1">
@@ -307,7 +317,7 @@
     </div>
   </div>
 
-  <!-- MODAL: GROUP -->
+  <!-- MODAL: 新增/編輯名單群組 -->
   <div id="groupModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[90vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-3">
@@ -332,12 +342,14 @@
     </div>
   </div>
 
+  <!-- Toast 通知提示 -->
   <div id="toastNotification" class="fixed bottom-6 right-6 z-50 hidden transform transition-all duration-300 translate-y-2 opacity-0">
     <div class="bg-gray-900 text-white px-4 py-3 rounded-xl shadow-lg text-sm font-bold flex items-center space-x-2">
       <span id="toastMessage">操作成功</span>
     </div>
   </div>
 
+  <!-- 核心 JavaScript 邏輯 -->
   <script>
     const GOOGLE_CLIENT_ID = '703523909710-ajgd9croq5b3unpfon3q6nl9id1m8hce.apps.googleusercontent.com'; 
     const ADMIN_EMAIL = 'ellasusj@gmail.com';
@@ -359,8 +371,12 @@
             { name: '茉莉綠茶 / 阿薩姆紅茶 (L)', price: 35 },
             { name: '四季春青茶 (M)', price: 30 },
             { name: '四季春青茶 (L)', price: 35 },
+            { name: '黃金烏龍 (M)', price: 30 },
+            { name: '黃金烏龍 (L)', price: 35 },
             { name: '珍珠奶茶 (M)', price: 40 },
             { name: '珍珠奶茶 (L)', price: 55 },
+            { name: '波霸奶茶 (M)', price: 40 },
+            { name: '波霸奶茶 (L)', price: 55 },
             { name: '紅茶拿鐵 (M)', price: 50 },
             { name: '紅茶拿鐵 (L)', price: 65 }
           ]
@@ -570,7 +586,7 @@
       if (window.lucide) lucide.createIcons();
     }
 
-    // 點餐表格渲染（動態根據該店家分類或品項決定是否顯示加料選項）
+    // 點餐表格動態加料區檢查邏輯
     function renderOrderTable() {
       const storeId = document.getElementById('orderStoreSelect').value;
       const store = appData.stores.find(s => s.id === storeId);
@@ -583,7 +599,6 @@
         return;
       }
 
-      // 判斷是否為手搖飲類別或包含加料項目
       const isBeverageStore = store.category === '手搖飲' || store.name.includes('五十嵐') || store.name.includes('飲料') || store.name.includes('茶');
 
       group.members.forEach(m => {
@@ -655,7 +670,7 @@
     }
 
     /* =====================================================================
-       📸 真實圖片 OCR 辨識引擎（嚴格讀取圖中文字與金額，不塞入假資料）
+       📸 真實圖片 OCR 辨識引擎
        ===================================================================== */
     function loadImageElement(file) {
       return new Promise((resolve, reject) => {
@@ -671,7 +686,6 @@
       });
     }
 
-    // 影像預處理（灰階化與高對比二值化，提升長條截圖辨識率）
     function preprocessImageForOCR(img) {
       const canvas = document.createElement('canvas');
       const w = img.width;
@@ -697,7 +711,6 @@
       return canvas;
     }
 
-    // 矩陣配對演算法：精準對應長條菜單中「品名在上方、數字價格在下方」的結構
     function parseRealOCRText(rawText) {
       const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
       const parsedItems = [];
@@ -717,7 +730,6 @@
 
         if (!cleaned) return;
 
-        // 若行為純數字金額（例：125, 120, 70）
         if (/^\d{2,3}$/.test(cleaned)) {
           const price = parseInt(cleaned, 10);
           if (price >= 20 && price <= 600 && candidateName) {
@@ -782,10 +794,8 @@
         console.warn('OCR error:', err);
       }
 
-      // 執行真實 OCR 文字解析
       const extractedItems = parseRealOCRText(fullText);
 
-      // 自動將檔名帶入店家名稱參考（如果檔名為 S__ 開頭則自動命名為新菜單）
       const nameInput = document.getElementById('storeNameInput');
       if (!nameInput.value.trim() || nameInput.value.startsWith('S__')) {
         const cleanBase = file.name.substring(0, file.name.lastIndexOf('.')) || '精選店家';
@@ -793,7 +803,6 @@
       }
       document.getElementById('storeCategoryInput').value = '餐點';
 
-      // 清除原本空白列
       document.querySelectorAll('#storeItemsContainer .item-row').forEach(row => {
         const n = row.querySelector('.item-name').value.trim();
         const p = row.querySelector('.item-price').value.trim();
@@ -945,7 +954,9 @@
       if (window.lucide) lucide.createIcons();
     }
 
-    /* 👥 名單群組管理邏輯 */
+    /* =====================================================================
+       👥 名單群組管理邏輯
+       ===================================================================== */
     function openGroupModal(groupId = null) {
       if (!appData.user) { showToast('【安全防護】未登入無法修改！'); return; }
       document.getElementById('groupMembersContainer').innerHTML = '';
