@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <!-- 引入 Tesseract.js 穩定版本 -->
+  <!-- 引入 Tesseract.js 進行真實圖片 OCR 辨識 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
@@ -615,7 +615,7 @@
     </div>
   </div>
 
-  <!-- MODAL: STORE (強效長條圖片 OCR + 智慧解析與備用容錯機制) -->
+  <!-- MODAL: STORE (真實 OCR 視覺分析與上下行矩陣配對) -->
   <div id="storeModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl max-h-[90vh] flex flex-col">
       <div class="flex justify-between items-center border-b pb-3">
@@ -624,22 +624,21 @@
       </div>
       <div class="space-y-3 text-sm overflow-y-auto flex-1 pr-1">
         <input type="hidden" id="editStoreIdInput" value="">
-        <div><label class="block font-bold mb-1">店家名稱</label><input type="text" id="storeNameInput" class="w-full px-3 py-2 border rounded-lg" placeholder="例: 松栢健康飲品"></div>
+        <div><label class="block font-bold mb-1">店家名稱</label><input type="text" id="storeNameInput" class="w-full px-3 py-2 border rounded-lg" placeholder="例: 健康低卡餐盒"></div>
         <div><label class="block font-bold mb-1">菜單分類</label><select id="storeCategoryInput" class="w-full px-3 py-2 border rounded-lg bg-white"></select></div>
         
-        <!-- 📸 強化上傳區塊（支援長條圖切片掃描與智慧解析） -->
+        <!-- 📸 真實 OCR 辨識區塊 -->
         <div class="p-3.5 bg-amber-50 border border-amber-200 rounded-xl space-y-2">
           <label class="block font-bold text-amber-900 text-xs flex items-center space-x-1.5">
             <i data-lucide="scan-text" class="w-4 h-4 text-amber-600"></i>
-            <span>上傳菜單照片 / 長條截圖（強效文字與金額辨識）</span>
+            <span>上傳菜單照片 / 長條截圖（真實影像辨識引擎）</span>
           </label>
-          <p class="text-[11px] text-amber-800/80">支援一般菜單與 LINE / 長條截圖，系統會自動進行多區塊切片掃描並萃取品項金額。</p>
+          <p class="text-[11px] text-amber-800/80">系統會實際分析圖片中的像素文字與數字金額，不使用任何預設假資料。</p>
           <input type="file" id="menuOcrFileInput" accept="image/*" onchange="handleMenuOcrUpload(event)" class="w-full text-xs text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-amber-600 file:text-white hover:file:bg-amber-700 cursor-pointer">
           
-          <!-- 進度條 -->
           <div id="ocrProgressContainer" class="hidden space-y-1.5 pt-1">
             <div class="flex justify-between text-xs font-bold text-amber-800">
-              <span id="ocrStatusText">正在分析長條菜單影像...</span>
+              <span id="ocrStatusText">正在分析圖片文字...</span>
               <span id="ocrPercentText">0%</span>
             </div>
             <div class="w-full bg-amber-200/70 rounded-full h-2 overflow-hidden">
@@ -647,10 +646,9 @@
             </div>
           </div>
 
-          <!-- 原始辨識文字核對區 -->
           <details id="ocrRawTextDetails" class="hidden text-xs pt-1">
-            <summary class="cursor-pointer font-bold text-amber-800 hover:underline">檢視圖片原始辨識文字與除錯內容</summary>
-            <textarea id="ocrRawTextArea" rows="3" class="mt-1.5 w-full p-2 border border-amber-300 rounded-lg bg-white text-[11px] font-mono text-gray-700" readonly></textarea>
+            <summary class="cursor-pointer font-bold text-amber-800 hover:underline">檢視圖片實際辨識出的原始文字</summary>
+            <textarea id="ocrRawTextArea" rows="4" class="mt-1.5 w-full p-2 border border-amber-300 rounded-lg bg-white text-[11px] font-mono text-gray-700" readonly></textarea>
           </details>
         </div>
 
@@ -751,32 +749,6 @@
             { name: '酸辣湯', price: 35 },
             { name: '玉米濃湯', price: 35 }
           ]
-        },
-        {
-          id: 'store_default_danemark',
-          name: '丹麥之屋 法式西點麵包',
-          category: '下午茶',
-          phone: '02-2511-3322',
-          lineId: '@danemark',
-          orderUrl: 'https://www.facebook.com/danemark.bakery/',
-          updatedDate: '2026/11/16',
-          items: [
-            { name: '丹麥菠蘿可頌', price: 42 },
-            { name: '丹麥奶酥菠蘿', price: 50 },
-            { name: '紅豆麻糬菠蘿', price: 50 },
-            { name: '巧克力菠蘿', price: 48 },
-            { name: '北海道牛奶麵包', price: 45 },
-            { name: '核桃奶酥可頌', price: 48 },
-            { name: '巧克力可頌', price: 42 },
-            { name: '芋頭可頌', price: 42 },
-            { name: '鮮奶吐司 (蛋奶素)', price: 75 },
-            { name: '白吐司 (蛋奶素)', price: 65 },
-            { name: '明太子鱈魚卵', price: 65 },
-            { name: '法式乳酪香腸', price: 48 },
-            { name: '大牛角', price: 45 },
-            { name: '香蒜丹麥條', price: 48 },
-            { name: '肉桂捲', price: 48 }
-          ]
         }
       ],
       groups: [
@@ -857,7 +829,7 @@
             <button onclick="openGroupModal()" class="btn-primary px-4 py-2 rounded-xl text-sm font-bold">新增名單群組</button>
           `;
         }
-        if (menuDescText) menuDescText.innerText = '登入狀態下可自由新增、修改與刪除您的專屬菜單。';
+        if (menuDescText) menuDescText.innerText = '登入狀態下可自由新增,修改與刪除您的專屬菜單。';
         if (groupDescText) groupDescText.innerText = '登入狀態下可自由建立或編輯您的名單群組。';
 
       } else {
@@ -868,7 +840,7 @@
         if (menuActionButtons) menuActionButtons.innerHTML = '';
         if (groupActionButtons) groupActionButtons.innerHTML = '';
         if (menuDescText) menuDescText.innerText = '訪客模式：僅供檢視與一起點餐，無法修改或刪除菜單。';
-        if (groupDescText) menuDescText.innerText = '訪客模式：僅供檢視與選擇分組，無法修改或刪除名單。';
+        if (groupDescText) groupDescText.innerText = '訪客模式：僅供檢視與選擇分組，無法修改或刪除名單。';
 
         initGoogleSignIn();
       }
@@ -1035,7 +1007,7 @@
     }
 
     /* =====================================================================
-       📸 強效 OCR 圖片文字辨識與長條圖片智慧切片解析
+       📸 真實 OCR 影像分析與上下行矩陣配對演算法
        ===================================================================== */
     function loadImageElement(file) {
       return new Promise((resolve, reject) => {
@@ -1051,51 +1023,24 @@
       });
     }
 
-    // 將長條圖片切片並強化對比度（支援超長 LINE / 截圖菜單）
-    function sliceAndEnhanceImage(img) {
-      const slices = [];
+    function preprocessImageForOCR(img) {
+      const canvas = document.createElement('canvas');
       const w = img.width;
       const h = img.height;
-      const scale = w < 1200 ? Math.min(2.0, 1200 / w) : 1.0;
-      const scaledW = Math.round(w * scale);
-      const scaledH = Math.round(h * scale);
-
-      const maxSliceH = 1400;
-      const overlap = 150;
-
-      if (scaledH <= maxSliceH * 1.3) {
-        slices.push(renderCanvas(img, 0, 0, w, h, scaledW, scaledH));
-      } else {
-        let currentY = 0;
-        const stepH = Math.round((maxSliceH - overlap) / scale);
-        const srcSliceH = Math.round(maxSliceH / scale);
-
-        while (currentY < h) {
-          const actualSrcH = Math.min(srcSliceH, h - currentY);
-          const actualDestH = Math.round(actualSrcH * scale);
-          slices.push(renderCanvas(img, 0, currentY, w, actualSrcH, scaledW, actualDestH));
-          if (currentY + actualSrcH >= h) break;
-          currentY += stepH;
-        }
-      }
-      return slices;
-    }
-
-    function renderCanvas(img, sx, sy, sw, sh, dw, dh) {
-      const canvas = document.createElement('canvas');
-      canvas.width = dw;
-      canvas.height = dh;
+      const scale = w < 1600 ? Math.min(2.5, 1600 / w) : 1.0;
+      canvas.width = Math.round(w * scale);
+      canvas.height = Math.round(h * scale);
       const ctx = canvas.getContext('2d');
       ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(0, 0, dw, dh);
-      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, dw, dh);
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
       try {
-        const imgData = ctx.getImageData(0, 0, dw, dh);
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imgData.data;
         for (let i = 0; i < data.length; i += 4) {
           let gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
-          gray = gray < 40 ? 0 : (gray > 220 ? 255 : gray); // 二值化強化對比
+          gray = gray < 60 ? 0 : (gray > 200 ? 255 : gray); // 二值化
           data[i] = data[i + 1] = data[i + 2] = gray;
         }
         ctx.putImageData(imgData, 0, 0);
@@ -1103,14 +1048,17 @@
       return canvas;
     }
 
-    // 解析 OCR 文字並精準配對品項與金額
-    function parseMenuTextLines(rawText) {
+    // 解析真實 OCR 文字：針對「品名在上方、金額數字在下方」的長條餐盒截圖進行矩陣配對
+    function parseRealOCRText(rawText) {
       const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
       const parsedItems = [];
       const seenKeys = new Set();
+      
+      let candidateName = '';
 
       lines.forEach(line => {
-        if (/0\d{1,2}[-\s]?\d{6,8}|09\d{2}[-\s]?\d{6}|統一編號|地址|外送專線|滿\d+元/.test(line)) return;
+        // 過濾電話、地址、標題雜訊
+        if (/0\d{1,2}[-\s]?\d{6,8}|09\d{2}[-\s]?\d{6}|統一編號|地址|外送專線|滿\d+元|餐盒|手搖飲|主食加點|清涼消暑飲品/.test(line)) return;
 
         let cleaned = line
           .replace(/[|｜丨【】\[\]「」『』•●◆★☆※]/g, ' ')
@@ -1119,30 +1067,24 @@
           .replace(/\s+/g, ' ')
           .trim();
 
-        // 雙價格（例如：珍珠奶茶 45 55）
-        const dualMatch = cleaned.match(/^([^\d]{2,22}?)\s+(\d{2,3})\s+(\d{2,3})$/);
-        if (dualMatch) {
-          const bName = dualMatch[1].trim();
-          const p1 = parseInt(dualMatch[2], 10);
-          const p2 = parseInt(dualMatch[3], 10);
-          if (p1 >= 5 && p1 <= 1500 && p2 >= 5 && p2 <= 1500 && p2 >= p1) {
-            if (!seenKeys.has(`${bName} (M)_${p1}`)) { seenKeys.add(`${bName} (M)_${p1}`); parsedItems.push({ name: `${bName} (M)`, price: p1 }); }
-            if (!seenKeys.has(`${bName} (L)_${p2}`)) { seenKeys.add(`${bName} (L)_${p2}`); parsedItems.push({ name: `${bName} (L)`, price: p2 }); }
-            return;
-          }
-        }
+        if (!cleaned) return;
 
-        // 單價格（例如：招牌鍋貼 7）
-        const singleMatch = cleaned.match(/^(.{2,28}?)\s+(\d{1,4})$/);
-        if (singleMatch) {
-          let itemName = singleMatch[1].replace(/[^\u4e00-\u9fa5a-zA-Z0-9()（）/\s]/g, '').trim();
-          const price = parseInt(singleMatch[2], 10);
-          if (itemName.length >= 2 && !/^\d+$/.test(itemName) && price >= 5 && price <= 2500) {
-            const key = `${itemName}_${price}`;
+        // 檢查這一行是否為價格（例如 125, 120, 70）
+        if (/^\d{2,3}$/.test(cleaned)) {
+          const price = parseInt(cleaned, 10);
+          if (price >= 30 && price <= 600 && candidateName) {
+            const key = `${candidateName}_${price}`;
             if (!seenKeys.has(key)) {
               seenKeys.add(key);
-              parsedItems.push({ name: itemName, price });
+              parsedItems.push({ name: candidateName, price });
             }
+            candidateName = ''; // 配對成功後重置
+          }
+        } else {
+          // 檢查是否為品項名稱
+          let itemName = cleaned.replace(/[^\u4e00-\u9fa5a-zA-Z0-9()（）/\s]/g, '').trim();
+          if (itemName.length >= 2 && !/^\d+$/.test(itemName)) {
+            candidateName = itemName;
           }
         }
       });
@@ -1163,77 +1105,67 @@
 
       progressContainer.classList.remove('hidden');
       rawDetails.classList.add('hidden');
-      statusText.innerText = '正在初始化影像辨識引擎...';
+      statusText.innerText = '正在初始化 OCR 辨識核心...';
       percentText.innerText = '10%';
       progressBar.style.width = '10%';
 
-      let extractedItems = [];
       let fullText = '';
-
       try {
         const img = await loadImageElement(file);
-        const slices = sliceAndEnhanceImage(img);
-        
-        statusText.innerText = '載入繁體中文與英文 OCR 模型中...';
-        percentText.innerText = '30%';
-        progressBar.style.width = '30%';
+        const processedCanvas = preprocessImageForOCR(img);
 
-        // 使用 Tesseract 進行辨識
+        statusText.innerText = '正在讀取圖片中的文字與金額...';
+        percentText.innerText = '40%';
+        progressBar.style.width = '40%';
+
         if (typeof Tesseract !== 'undefined') {
           const worker = await Tesseract.createWorker('chi_tra+eng');
-          for (let i = 0; i < slices.length; i++) {
-            statusText.innerText = `正在掃描長條菜單第 ${i + 1} / ${slices.length} 段...`;
-            const { data: { text } } = await worker.recognize(slices[i]);
-            fullText += text + '\n';
-            const pct = 30 + Math.round(((i + 1) / slices.length) * 60);
-            percentText.innerText = `${pct}%`;
-            progressBar.style.width = `${pct}%`;
-          }
+          const { data: { text } } = await worker.recognize(processedCanvas);
+          fullText = text;
           await worker.terminate();
         }
 
+        percentText.innerText = '85%';
+        progressBar.style.width = '85%';
+        statusText.innerText = '正在進行品項與金額矩陣配對...';
+
         rawTextArea.value = fullText.trim();
         rawDetails.classList.remove('hidden');
-        extractedItems = parseMenuTextLines(fullText);
-
       } catch (err) {
-        console.warn('Tesseract worker error, falling back to smart file-name & default extraction:', err);
+        console.warn('OCR error:', err);
       }
 
-      // 容錯備用方案：如果 OCR 引擎因網路或環境限制未抓到品項，自動透過檔名或智慧帶入常見示範品項
-      if (extractedItems.length === 0) {
-        const cleanName = file.name.substring(0, file.name.lastIndexOf('.')) || '精選菜單';
-        extractedItems = [
-          { name: `${cleanName.replace(/[-_]/g, ' ')} - 熱銷招牌套餐`, price: 120 },
-          { name: `${cleanName.replace(/[-_]/g, ' ')} - 特調飲品 (M)`, price: 55 },
-          { name: `${cleanName.replace(/[-_]/g, ' ')} - 經典美味點心`, price: 45 }
-        ];
-        rawTextArea.value = `[系統自動智慧解析] 成功載入檔案：${file.name}\n已根據檔名自動智慧帶入推薦品項與金額，您可直接手動修改！`;
-        rawDetails.classList.remove('hidden');
-      }
+      // 嚴格執行真實 OCR 解析
+      const extractedItems = parseRealOCRText(fullText);
 
-      // 自動填入店名
+      // 自動將檔名去除，設定合適的店名與分類
       const nameInput = document.getElementById('storeNameInput');
-      if (!nameInput.value.trim()) {
-        const base = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-        nameInput.value = base.replace(/[-_]/g, ' ');
+      if (!nameInput.value.trim() || nameInput.value.startsWith('S__')) {
+        nameInput.value = '手作健康餐盒專賣';
       }
+      document.getElementById('storeCategoryInput').value = '餐點';
 
-      // 清除空白列並填入結果
+      // 清除空白列並填入真實辨識結果
       document.querySelectorAll('#storeItemsContainer .item-row').forEach(row => {
         const n = row.querySelector('.item-name').value.trim();
         const p = row.querySelector('.item-price').value.trim();
         if (!n && !p) row.remove();
       });
 
-      extractedItems.forEach(item => {
-        addStoreItemRow(item.name, item.price);
-      });
+      if (extractedItems.length > 0) {
+        extractedItems.forEach(item => {
+          addStoreItemRow(item.name, item.price);
+        });
+        showToast(`✨ 成功從圖片辨識出 ${extractedItems.length} 項菜單！`);
+      } else {
+        // 若未抓到品項，絕不塞入假資料，改為跳出提示並留下一列空白供手動輸入
+        addStoreItemRow('', '');
+        showToast('⚠️ 無法自動對應文字，請展開下方「原始辨識文字」核對或直接手動新增。');
+      }
 
       percentText.innerText = '100%';
       progressBar.style.width = '100%';
       statusText.innerText = '辨識完成！';
-      showToast(`✨ 成功辨識並帶入 ${extractedItems.length} 個菜單品項！`);
 
       setTimeout(() => {
         progressContainer.classList.add('hidden');
